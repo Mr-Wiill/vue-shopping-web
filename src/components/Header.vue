@@ -2,6 +2,7 @@
   <el-header class="header">
     <el-row class="header-logo">
       <el-col :span="6"><h2>Pizza点餐系统</h2></el-col>
+      <div>div</div>
       <!--<el-col :span="12">
         <el-menu mode="horizontal">
           <el-menu-item index="1"><router-link :to="/home">首页</router-link></el-menu-item>

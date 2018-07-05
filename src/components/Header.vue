@@ -31,7 +31,7 @@
     width: 100%;
     background: #1b6d85;
     .header-logo{
-      background: #ff00ff;
+      /*background: #ff00ff;*/
     }
   }
 </style>

@@ -1,10 +1,12 @@
 <template>
-
+  <el-container class="app-main">
+    menu
+  </el-container>
 </template>
 
 <script>
     export default {
-        name: "AppMenu"
+        name: "Menu"
     }
 </script>
 

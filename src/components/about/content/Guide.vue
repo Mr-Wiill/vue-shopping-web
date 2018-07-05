@@ -1,12 +1,10 @@
 <template>
-  <el-container class="app-main">
-    <div>Home</div>
-  </el-container>
+
 </template>
 
 <script>
     export default {
-        name: "Home"
+        name: "Guide"
     }
 </script>
 

@@ -3,12 +3,14 @@
     <el-row class="about-content">
       <el-col :span="6" class="el-aside">
         <el-menu>
-          <el-menu-item :index="item.index" v-for="item in aside">
-            <router-link :to="item.link">{{item.name}}</router-link>
+          <el-menu-item :index="item.index" v-for="item in aside" @click="toggle(item.index)" :class="{'active':item.index==checkIndex}">
+            <router-link :to="{name:item.link}">{{item.name}}</router-link>
           </el-menu-item>
         </el-menu>
       </el-col>
-      <el-col :span="18" class="aside-content">content</el-col>
+      <el-col :span="18" class="aside-content">
+        <router-view></router-view>
+      </el-col>
     </el-row>
   </el-container>
 </template>
@@ -21,25 +23,31 @@
             aside:[
               {
                 index:'1',
-                link:'',
+                link:'newsLink',
                 name:'新闻'
               },
               {
                 index:'2',
-                link:'',
+                link:'expressLink',
                 name:'物流'
               },
               {
                 index:'3',
-                link:'',
+                link:'guideLink',
                 name:'点餐引导'
               },
               {
                 index:'4',
-                link:'',
+                link:'contactLink',
                 name:'联系我们'
               }
-            ]
+            ],
+            checkIndex:1,
+          }
+      },
+      methods:{
+        toggle(val){
+            this.checkIndex = val;
           }
       }
     }
@@ -64,9 +72,17 @@
             -webkit-box-shadow: 0px 0px 4px #eee;
             -moz-box-shadow: 0px 0px 4px #eee;
             box-shadow: 0px 0px 4px #eee;
+            padding: 0 !important;
+            text-indent: 1.5em;
             a{
               color: #696969;
+              display: block;
+              width: 100%;
+              height: 100%;
             }
+          }
+          li.active{
+            background-color:#ecf5ff
           }
         }
       }

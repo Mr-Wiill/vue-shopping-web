@@ -1,5 +1,5 @@
 <template>
-
+  <el-container>news</el-container>
 </template>
 
 <script>

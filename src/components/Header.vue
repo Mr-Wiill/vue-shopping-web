@@ -107,14 +107,15 @@
         li{
           display: inline-block;
           line-height: 60px;
-          padding: 0 20px;
+
           margin: 0 10px;
           a{
-            display: inline-block;
-            width: 100%;
+            display: block;
+            width: inherit;
             height: 100%;
             color: #696969;
             font-size: 14px;
+            padding: 0 20px;
           }
         }
         li:hover{

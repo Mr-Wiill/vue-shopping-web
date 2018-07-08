@@ -11,8 +11,12 @@ import Register from '@/components/Register'
 /*二级路由*/
 import News from '@/components/about/content/News'
 import Express from '@/components/about/content/Express'
-import History from '@/components/about/content/Guide'
+import Guide from '@/components/about/content/Guide'
 import Contact from '@/components/about/content/Contact'
+
+/*三极路由*/
+import Phone from '@/components/about/content/contact/Phone'
+import PersonName from '@/components/about/content/contact/PersonName'
 
 Vue.use(Router);
 
@@ -40,8 +44,42 @@ export default new Router({
     {
       path:'/about',      //一级路由
       name:'aboutLink',
-      component:About
+      component:About,
+      children:[
+        {
+          path:'/',
+          name:'newsLink',
+          component:News
+        },
+        {
+          path:'/express',
+          name:'expressLink',
+          component:Express
+        },
+        {
+          path:'/guide',
+          name:'guideLink',
+          component:Guide
+        },
+        {
+          path:'/contact',
+          name:'contactLink',
+          component:Contact,
+          children:[
+            {
+              path:'/',
+              name:'personNameLink',
+              component:PersonName
+            },
+            {
+              path:'/phone',
+              name:'phoneLink',
+              component:Phone
+            },
 
+          ]
+        }
+      ]
     },
     {
       path:'/login',

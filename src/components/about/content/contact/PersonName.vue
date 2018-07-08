@@ -1,10 +1,12 @@
 <template>
-  <el-container>guide</el-container>
+  <el-container>
+    姓名
+  </el-container>
 </template>
 
 <script>
     export default {
-        name: "Guide"
+        name: "personName"
     }
 </script>
 

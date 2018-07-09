@@ -1,6 +1,6 @@
 <template>
   <el-container class="app-main">
-    <el-row class="about-content">
+    <el-row class="about-main">
       <el-col :span="6" class="el-aside">
         <el-menu>
           <el-menu-item :index="item.index" v-for="item in aside" @click="toggle(item.index)" :class="{'active':item.index==checkIndex}">
@@ -23,13 +23,13 @@
             aside:[
               {
                 index:'1',
-                link:'newsLink',
-                name:'新闻'
+                link:'historyLink',
+                name:'历史订单'
               },
               {
                 index:'2',
                 link:'expressLink',
-                name:'物流'
+                name:'物流信息'
               },
               {
                 index:'3',
@@ -55,7 +55,7 @@
 
 <style scoped lang="less">
   .app-main{
-    .about-content{
+    .about-main{
       width: 100%;
       height: auto;
       .el-aside{

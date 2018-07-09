@@ -9,7 +9,7 @@ import Login from '@/components/Login'
 import Register from '@/components/Register'
 
 /*二级路由*/
-import News from '@/components/about/content/News'
+import History from '@/components/about/content/History'
 import Express from '@/components/about/content/Express'
 import Guide from '@/components/about/content/Guide'
 import Contact from '@/components/about/content/Contact'
@@ -19,9 +19,7 @@ import Phone from '@/components/about/content/contact/Phone'
 import PersonName from '@/components/about/content/contact/PersonName'
 
 Vue.use(Router);
-
-export default new Router({
-  routes: [
+const router =  [
     {
       path: '*',      //没有配置的路径
       redirect: '/'   //默认跳转首页
@@ -29,7 +27,12 @@ export default new Router({
     {
       path: '/',
       name: 'homeLink',
-      component: Home
+      components:{        //一个页面里，多个路由容器vue-router
+        default:Home,
+        'guide' : Guide,
+        'express': Express,
+        'history' : History,
+      }
     },
     {
       path:'/menu',
@@ -45,34 +48,38 @@ export default new Router({
       path:'/about',      //一级路由
       name:'aboutLink',
       component:About,
-      children:[
+      children:[          //二级路由
         {
-          path:'/',
-          name:'newsLink',
-          component:News
+          path:'/about/History',
+          name:'historyLink',
+          component:History
         },
         {
-          path:'/express',
+          path:'/about/express',
           name:'expressLink',
           component:Express
         },
         {
-          path:'/guide',
+          path:'/about/guide',
           name:'guideLink',
           component:Guide
         },
         {
-          path:'/contact',
+          path:'/about/contact',
           name:'contactLink',
           component:Contact,
-          children:[
+          children:[            //三级路由
             {
-              path:'/',
+              path:'/about/contact/personName',
               name:'personNameLink',
-              component:PersonName
+              component:PersonName,
+              beforeEnter:(to,from,next)=>{       //路由独享守卫
+                alert('触发守卫！');
+                next();
+              }
             },
             {
-              path:'/phone',
+              path:'/about/contact/phone',
               name:'phoneLink',
               component:Phone
             },
@@ -91,6 +98,10 @@ export default new Router({
       name:'registerLink',
       component:Register
     },
-  ],
-  mode:"history"
+  ];
+export default new Router({
+  routes: router,
+  mode:"history",
+  // guardRouter
 })
+

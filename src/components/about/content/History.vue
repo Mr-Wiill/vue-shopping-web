@@ -1,11 +1,11 @@
 <template>
   <el-container direction="vertical" class="about-content">
     <el-row class="about-content-head">
-      <el-col :span="24">查看物流信息</el-col>
+      <el-col :span="24">查看历史订单</el-col>
     </el-row>
     <el-row>
       <el-col :span="24">
-        查看物流信息
+        查看所有历史订单
       </el-col>
     </el-row>
   </el-container>
@@ -13,9 +13,9 @@
 
 <script>
     export default {
-        name: "Express"
+        name: "History"
     }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 </style>

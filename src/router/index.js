@@ -102,6 +102,14 @@ const router =  [
 export default new Router({
   routes: router,
   mode:"history",
-  // guardRouter
+  /*滚动行为*/
+  scrollBehavior(to,from,savedPosition){
+    if (savedPosition){
+      return savedPosition;       //按后退键，滚动条停留在上一次浏览的位置
+    } else {
+      return{x:0, y:60}       //路由跳转时，滚动条的默认位置
+    }
+    // return {selector:'.btn'}     //滚动条浏览在指定目标位置
+  }
 })
 

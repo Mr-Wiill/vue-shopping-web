@@ -2,12 +2,16 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import axios from 'axios'
 import ElementUi from 'element-ui'
 import router from './router'
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.config.productionTip = false;
 Vue.use(ElementUi);
+
+/*axios全局默认路径*/
+axios.defaults.baseURL = 'https://pizza-app-65e84.firebaseio.com/';
 
 /*全局守卫*/
 /*router.beforeEach((to,from,next)=>{     // to表示即将进入的路由目标，from表示正要离开的路由，next表示之后跳转的页面

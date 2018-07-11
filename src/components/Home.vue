@@ -3,7 +3,7 @@
     <el-row class="app-home-bg">
       <el-col class="app-home-content" :span="24">
         <h2>欢迎大家品尝pizza</h2>
-        <el-button><router-link to="/menu">Let's order!</router-link></el-button>
+        <el-button class="btn" @click="goTo">Let's order!</el-button>
       </el-col>
     </el-row>
   </el-container>
@@ -11,7 +11,12 @@
 
 <script>
     export default {
-        name: "Home"
+        name: "Home",
+      methods:{
+        goTo(){
+          this.$router.push('/menu')
+        }
+      }
     }
 </script>
 
@@ -22,7 +27,6 @@
       height: 85vh;
       padding: 15%;
       .app-home-content{
-        font-family: '微软雅黑', "Times New Roman";
         height: 100%;
         background: rgba(1,1,1,.5);
         margin: 0 auto;
@@ -34,14 +38,12 @@
         line-height: 80px;
         color: #fff;
         button{
-          background: limegreen;
+          background: #62D2CE;
           border: 0;
-          a{
-            color: #fff;
-          }
+          color: #3B3B3B;
         }
         button:hover{
-          background: forestgreen;
+          background: #4CA3A0;
           color: #fff;
         }
       }

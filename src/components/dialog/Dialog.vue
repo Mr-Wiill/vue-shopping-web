@@ -8,7 +8,7 @@
         <el-col :span="24">{{event}}</el-col>
       </el-row>
       <el-row class="dialog-main-btn" type="flex" justify="end">
-        <!--<el-col :span="12"><el-button @click="cancelled">取消</el-button></el-col>-->
+        <el-col :span="12" v-if="cancel"><el-button @click="cancelled">取消</el-button></el-col>
         <el-col :span="12"><el-button @click="confirmed">确定</el-button></el-col>
       </el-row>
     </el-container>
@@ -22,20 +22,18 @@
     props:['event'],
     data(){
       return {
-
+        cancel:false,
       }
     },
     methods:{
       confirmed(){
-        if (this.event='注册成功') {
+        if (this.event=='注册成功') {
           this.$router.push('/login')
-        } else if (this.event='两次密码不一致，请重新输入!'){
-          this.$emit('closed');
         }
       },
       /*关闭窗口*/
       cancelled(){
-
+        this.$emit('closed');
       }
     },
   }
@@ -60,6 +58,9 @@
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
+    -webkit-box-shadow: 1px 1px 5px #696969;
+    -moz-box-shadow: 1px 1px 5px #696969;
+    box-shadow: 1px 1px 5px #696969;
   }
   .bg-fade{
     position: fixed;

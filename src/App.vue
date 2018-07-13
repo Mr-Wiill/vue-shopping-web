@@ -64,6 +64,9 @@ export default {
         .about-content-head{
           border-bottom: 1px solid #eeeeee;
         }
+        .about-content-main{
+          padding: 10px 0;
+        }
       }
       .about-display{
         max-width: 1100px;
@@ -73,6 +76,10 @@ export default {
           .about-content{
             background: #fff;
             border: 2px solid #e6e6e6;
+            .about-head-item{
+              display: flex;
+              justify-content: center;
+            }
           }
         }
       }

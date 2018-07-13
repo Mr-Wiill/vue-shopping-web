@@ -3,7 +3,7 @@
     <el-row class="about-main">
       <el-col :span="6" class="el-aside">
         <el-menu>
-          <el-menu-item :index="item.index" v-for="item in aside" @click="toggle(item.index)" :class="{'active':item.index==checkIndex}">
+          <el-menu-item :index="item.index" :key="item.index" v-for="item in aside" @click="toggle(item.index)" :class="{'active':item.index==checkIndex}">
             <router-link :to="{name:item.link}">{{item.name}}</router-link>
           </el-menu-item>
         </el-menu>

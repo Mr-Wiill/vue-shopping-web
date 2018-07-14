@@ -34,7 +34,7 @@
               {
                 index:'3',
                 link:'guideLink',
-                name:'点餐引导'
+                name:'点餐指南'
               },
               {
                 index:'4',

@@ -43,9 +43,9 @@ export default {
       .app-main{
         max-width: 1100px;
         margin: 20px auto;
-        -webkit-box-shadow: 2px 2px 2px #ccc;
-        -moz-box-shadow:2px 2px 2px #ccc;
-        box-shadow: 2px 2px 2px #ccc;
+        -webkit-box-shadow: 0px 0px 15px #ccc;
+        -moz-box-shadow:0px 0px 15px #ccc;
+        box-shadow: 0px 0px 15px #ccc;
         background: #fff;
         padding: 20px;
         -webkit-border-radius: 5px;
@@ -75,7 +75,10 @@ export default {
           width: 100%;
           .about-content{
             background: #fff;
-            border: 2px solid #e6e6e6;
+            border: 0;
+            -webkit-box-shadow: 0px 0px 15px #ccc;
+            -moz-box-shadow: 0px 0px 15px #ccc;
+            box-shadow: 0px 0px 15px #ccc;
             .about-head-item{
               display: flex;
               justify-content: center;
@@ -95,7 +98,9 @@ export default {
         -webkit-border-radius: 5px;
         -moz-border-radius: 5px;
         border-radius: 5px;
-
+        -webkit-box-shadow: 0px 0px 15px #ccc;
+        -moz-box-shadow:  0px 0px 15px #ccc;
+        box-shadow:  0px 0px 15px #ccc;
         .login-title{
           width: 100%;
           text-align: center;

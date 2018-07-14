@@ -46,11 +46,11 @@ const router =  [
     },
     {
       path:'/about',      //一级路由
-      name:'aboutLink',
+      // name:'aboutLink',
       component:About,
       children:[          //二级路由
         {
-          path:'/about/History',
+          path:'/',
           name:'historyLink',
           component:History
         },

@@ -89,9 +89,9 @@
   .header{
     width: 100%;
     background: #62D2CE;
-    -webkit-box-shadow: 0px 2px 2px #ccc;
+   /* -webkit-box-shadow: 0px 2px 2px #ccc;
     -moz-box-shadow:0px 2px 2px #ccc;
-    box-shadow: 0px 2px 2px #ccc;
+    box-shadow: 0px 2px 2px #ccc;*/
     color: #696969;
     .header-content{
       max-width: 1200px;

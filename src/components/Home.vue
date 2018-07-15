@@ -25,9 +25,10 @@
     .app-home-bg{
       background: url("../assets/pizza.jpg");
       height: 85vh;
+      min-height: 500px;
       padding: 15%;
       .app-home-content{
-        height: 100%;
+        line-height: 180px;
         background: rgba(1,1,1,.5);
         margin: 0 auto;
         -webkit-border-radius: 5px;
@@ -35,7 +36,7 @@
         border-radius: 5px;
         text-align: center;
         padding: 5%;
-        line-height: 80px;
+        line-height: 60px;
         color: #fff;
         button{
           background: #62D2CE;

@@ -1,9 +1,9 @@
 <template>
   <div class="dialog">
     <el-container direction="vertical" class="dialog-main">
-      <el-row>
+<!--      <el-row>
         <el-col>提示</el-col>
-      </el-row>
+      </el-row>-->
       <el-row class="dialog-main-title">
         <el-col :span="24">{{event}}</el-col>
       </el-row>
@@ -27,9 +27,6 @@
     },
     methods:{
       confirmed(){
-        if (this.event=='注册成功') {
-          this.$router.push('/login')
-        }
       },
       /*关闭窗口*/
       cancelled(){

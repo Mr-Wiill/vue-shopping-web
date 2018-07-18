@@ -1,18 +1,20 @@
 <template>
-  <el-form label-width="50px" @submit.native.prevent>
-    <el-row class="login-title" type="flex" justify="center">
-      <el-col :sapn="24"><img src="../assets/icon.png" /></el-col>
-    </el-row>
-    <el-form-item label="账号">
-      <el-input type="email" v-model="user.account" placeholder="请输入账号" required="required"></el-input>
-    </el-form-item>
-    <el-form-item label="密码">
-      <el-input type="password" v-model="user.password" placeholder="请输入密码" required="required"></el-input>
-    </el-form-item>
-    <el-form-item class="submit-btn">
-      <button @click="login">登录</button>
-    </el-form-item>
-  </el-form>
+  <el-container class="login-register-main">
+    <el-form label-width="50px" @submit.native.prevent>
+      <el-row class="login-title" type="flex" justify="center">
+        <el-col :sapn="24"><img src="../assets/icon.png" /></el-col>
+      </el-row>
+      <el-form-item label="账号">
+        <el-input type="email" v-model="user.account" placeholder="请输入账号" required="required"></el-input>
+      </el-form-item>
+      <el-form-item label="密码">
+        <el-input type="password" v-model="user.password" placeholder="请输入密码" required="required"></el-input>
+      </el-form-item>
+      <el-form-item class="submit-btn">
+        <button @click="login">登录</button>
+      </el-form-item>
+    </el-form>
+  </el-container>
 </template>
 
 <script>

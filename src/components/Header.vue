@@ -39,13 +39,13 @@
               },
               {
                 id:3,
-                url:'/admin',
-                name:'管理'
+                url:'/about',
+                name:'关于'
               },
               {
                 id:4,
-                url:'/about',
-                name:'关于'
+                url:'/admin',
+                name:'管理'
               }
             ],
             userEntry:[

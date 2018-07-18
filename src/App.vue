@@ -86,44 +86,46 @@ export default {
           }
         }
       }
-      .el-form{
-        width: 30vw;
-        height: auto;
-        margin: 20px auto;
-        -webkit-box-shadow: 2px 2px 2px #ccc;
-        -moz-box-shadow:2px 2px 2px #ccc;
-        box-shadow: 2px 2px 2px #ccc;
-        background: #fff;
-        padding: 3% 5%;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        border-radius: 5px;
-        -webkit-box-shadow: 0px 0px 15px #ccc;
-        -moz-box-shadow:  0px 0px 15px #ccc;
-        box-shadow:  0px 0px 15px #ccc;
-        .login-title{
-          width: 100%;
-          text-align: center;
-          margin-bottom: 30px;
-          color: #696969;
-        }
-        .submit-btn{
-          text-align:center;
-          button{
+      .login-register-main{
+        .el-form{
+          width: 30vw;
+          height: auto;
+          margin: 20px auto;
+          -webkit-box-shadow: 2px 2px 2px #ccc;
+          -moz-box-shadow:2px 2px 2px #ccc;
+          box-shadow: 2px 2px 2px #ccc;
+          background: #fff;
+          padding: 3% 5%;
+          -webkit-border-radius: 5px;
+          -moz-border-radius: 5px;
+          border-radius: 5px;
+          -webkit-box-shadow: 0px 0px 15px #ccc;
+          -moz-box-shadow:  0px 0px 15px #ccc;
+          box-shadow:  0px 0px 15px #ccc;
+          .login-title{
             width: 100%;
-            height: 40px;
-            background: #62D2CE;
-            color: #303133;
-            border: 0;
-            cursor: pointer;
-            -webkit-border-radius: 5px;
-            -moz-border-radius: 5px;
-            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #696969;
           }
-          button:hover{
-            background: #4CA3A0;
-            color: #fff;
-            transition: .3s;
+          .submit-btn{
+            text-align:center;
+            button{
+              width: 100%;
+              height: 40px;
+              background: #62D2CE;
+              color: #303133;
+              border: 0;
+              cursor: pointer;
+              -webkit-border-radius: 5px;
+              -moz-border-radius: 5px;
+              border-radius: 5px;
+            }
+            button:hover{
+              background: #4CA3A0;
+              color: #fff;
+              transition: .3s;
+            }
           }
         }
       }

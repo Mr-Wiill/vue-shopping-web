@@ -1,21 +1,23 @@
 <template>
-  <el-form :model="user" label-width="80px" @submit.native.prevent>   <!--@submit.native.prevent阻止点击注册按钮后刷新页面-->
-    <el-row class="login-title" type="flex" justify="center">
-      <el-col :sapn="24"><h1>注册账号</h1></el-col>
-    </el-row>
-    <el-form-item label="账号">
-      <el-input type="email" v-model="user.account" placeholder="请输入邮箱" required="required"></el-input>
-    </el-form-item>
-    <el-form-item label="密码">
-      <el-input type="password" v-model="user.password" placeholder="请输入密码" required="required"></el-input>
-    </el-form-item>
-    <el-form-item label="确认密码">
-      <el-input type="password" v-model="user.confirmPsd" placeholder="重新输入密码" required="required"></el-input>
-    </el-form-item>
-    <el-form-item class="submit-btn">
-      <button @click="onSubmit">注册</button>
-    </el-form-item>
-  </el-form>
+  <el-container class="login-register-main">
+    <el-form :model="user" label-width="80px" @submit.native.prevent>   <!--@submit.native.prevent阻止点击注册按钮后刷新页面-->
+      <el-row class="login-title" type="flex" justify="center">
+        <el-col :sapn="24"><h1>注册账号</h1></el-col>
+      </el-row>
+      <el-form-item label="账号">
+        <el-input type="email" v-model="user.account" placeholder="请输入邮箱" required="required"></el-input>
+      </el-form-item>
+      <el-form-item label="密码">
+        <el-input type="password" v-model="user.password" placeholder="请输入密码" required="required"></el-input>
+      </el-form-item>
+      <el-form-item label="确认密码">
+        <el-input type="password" v-model="user.confirmPsd" placeholder="重新输入密码" required="required"></el-input>
+      </el-form-item>
+      <el-form-item class="submit-btn">
+        <button @click="onSubmit">注册</button>
+      </el-form-item>
+    </el-form>
+  </el-container>
 </template>
 
 <script>

@@ -97,38 +97,6 @@
                     price:'48',
                   }
                 ]
-              },
-              {
-                id:2,
-                name:'榴莲披萨',
-                lists:[
-                  {
-                    key:1,
-                    size:'9寸',
-                    price:'38',
-                  },
-                  {
-                    key:2,
-                    size:'12寸',
-                    price:'48',
-                  }
-                ]
-              },
-              {
-                id:3,
-                name:'夏威夷披萨',
-                lists:[
-                  {
-                    key:1,
-                    size:'9寸',
-                    price:'38',
-                  },
-                  {
-                    key:2,
-                    size:'12寸',
-                    price:'48',
-                  }
-                ]
               }
             ],
             cart:[]
@@ -217,7 +185,7 @@
         cursor: pointer;
         background: #fff;
         border: 1px solid #dcdfe6;
-        color: #606266;
+        color: #62D2CE;
         -webkit-appearance: none;
         text-align: center;
         -webkit-box-sizing: border-box;

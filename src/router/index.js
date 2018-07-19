@@ -4,7 +4,7 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import Menu from '@/components/Menu'
 import Admin from '@/components/Admin'
-import About from '@/components/about/About'
+import About from '@/components/About'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 

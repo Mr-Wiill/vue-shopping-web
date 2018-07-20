@@ -1,34 +1,28 @@
 <template>
   <el-container class="app-main">
     <el-row class="menu-main">
-      <el-col :span="11"  class="shopping-cart about-content">
+      <el-col :span="10"  class="shopping-cart about-content">
         <el-container direction="vertical">
           <el-row class="about-content-head">
             <h4>{{listHead}}</h4>
           </el-row>
           <el-form label-width="80px" class="add-goods-list">
-            <el-form-item v-for="item in addList" :label="item.label" :key="item.label">
-              <el-input :value="item.data" :placeholder="item.holder" type="text" required="required" ></el-input>
+            <el-form-item label="商品名称">
+              <el-input type="text" v-model="addGoods.goodsName" placeholder="请输入商品名称" required="required"></el-input>
             </el-form-item>
-            <!--<el-form-item :label="addList.goodsId">
-              <el-input type="text" required="required" placeholder="请输入商品编码"></el-input>
+            <el-form-item label="商品尺寸">
+              <el-input type="text" v-model="addGoods.goodsSize" placeholder="请输入商品尺寸" required="required"></el-input>
             </el-form-item>
-            <el-form-item :label="addList.goodsName">
-              <el-input type="text" placeholder="请输入商品名称" required="required"></el-input>
+            <el-form-item label="商品价格">
+              <el-input type="text" v-model="addGoods.goodsPrice" placeholder="请输入商品价格" required="required"></el-input>
             </el-form-item>
-            <el-form-item :label="addList.goodsSize">
-              <el-input type="text" placeholder="请输入商品尺寸" required="required"></el-input>
-            </el-form-item>
-            <el-form-item :label="addList.goodsPrice">
-              <el-input type="text" placeholder="请输入商品价格" required="required"></el-input>
-            </el-form-item>-->
             <el-form-item >
               <el-button @click="addGoodsFn">发布</el-button>
             </el-form-item>
           </el-form>
         </el-container>
       </el-col>
-      <el-col :span="12" :offset="1" class="about-content">
+      <el-col :span="13" :offset="1" class="about-content">
         <el-container direction="vertical">
           <el-row class="about-content-head">
             <h4>{{navList.listHead}}</h4>
@@ -62,21 +56,7 @@
         name: "Admin",
       data(){
           return {
-            // name:'jacky',
             listHead:'添加商品',
-            addList:[
-              {
-                label:'商品编码',
-                holder:'请输入商品编码'
-              }
-            ],
-            /*addList:{
-              listHead:'添加商品',
-              goodsId:'商品编码',
-              goodsName:'商品名称',
-              goodsSize:'商品尺寸',
-              goodsPrice:'商品价格'
-            },*/
             navList:{
               listHead:'菜单列表',
               category:'商品',
@@ -94,16 +74,8 @@
               {
                 name:'芝士披萨',
                 lists:[
-                  {
-                    id:1,
-                    size:'9',
-                    price:'38',
-                  },
-                  {
-                    id:2,
-                    size:'12',
-                    price:'38',
-                  },
+                  {/*id:1,*/size:'9',price:'38',},
+                  {/*id:2,*/size:'12',price:'38',},
                 ]
               },
             ],
@@ -111,7 +83,22 @@
       },
       methods:{
           addGoodsFn(){
-            console.log(this.addGoods.goodsId)
+            this.pizzaList.forEach((pizza)=>{
+              if (this.addGoods.goodsName == pizza.name)
+               pizza.lists.forEach((option)=>{
+                 if (this.addGoods.goodsSize == option.size){
+                   this.$alert('该商品已经存在',{
+                     type:'warning',
+                     callback:action=>{}
+                   })
+                 } else {
+                    /*let json={size:'',price:''};
+                    json.size == this.addGoods.Size;
+                    json.price == this.addGoods.Price;
+                    console.log(json)*/
+                 }
+               })
+            })
           }
       }
       /*组件内的守卫*/

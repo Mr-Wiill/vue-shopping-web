@@ -4,20 +4,22 @@
       <el-col :span="10"  class="shopping-cart about-content">
         <el-container direction="vertical">
           <el-row class="about-content-head">
-            <h4>{{listHead}}</h4>
+            <h4>添加商品</h4>
           </el-row>
-          <el-form label-width="80px" class="add-goods-list">
+          <el-form label-width="80px" class="add-goods-list" v-for="goods in addGoods" :key='goods.name' @submit.active.prevent>
             <el-form-item label="商品名称">
-              <el-input type="text" v-model="addGoods.goodsName" placeholder="请输入商品名称" required="required"></el-input>
+              <el-input type="text" v-model="goods.name" placeholder="请输入商品名称" required="required"></el-input>
             </el-form-item>
-            <el-form-item label="商品尺寸">
-              <el-input type="text" v-model="addGoods.goodsSize" placeholder="请输入商品尺寸" required="required"></el-input>
-            </el-form-item>
-            <el-form-item label="商品价格">
-              <el-input type="text" v-model="addGoods.goodsPrice" placeholder="请输入商品价格" required="required"></el-input>
-            </el-form-item>
+            <el-row v-for="prop in goods.props" :key="prop.size">
+              <el-form-item label="商品尺寸">
+                <el-input type="text" v-model="prop.size" placeholder="请输入商品尺寸" required="required"></el-input>
+              </el-form-item>
+              <el-form-item label="商品价格">
+                <el-input type="text" v-model="prop.price" placeholder="请输入商品价格" required="required"></el-input>
+              </el-form-item>
+            </el-row>
             <el-form-item >
-              <el-button @click="addGoodsFn">发布</el-button>
+              <el-button @click="addGoodsFn(goods,prop)">发布</el-button>
             </el-form-item>
           </el-form>
         </el-container>
@@ -25,24 +27,24 @@
       <el-col :span="13" :offset="1" class="about-content">
         <el-container direction="vertical">
           <el-row class="about-content-head">
-            <h4>{{navList.listHead}}</h4>
+            <h4>菜单列表</h4>
           </el-row>
           <el-container direction="vertical">
             <el-row class="menu-item menu-item-head">
-              <el-col :span="6">{{navList.category}}</el-col>
-              <el-col :span="6">{{navList.size}}</el-col>
-              <el-col :span="6">{{navList.price}}</el-col>
-              <el-col :span="6">{{navList.order}}</el-col>
+              <el-col :span="6" v-for="(val,index) in navList" :key="index">{{val}}</el-col>
             </el-row>
             <el-row class="menu-item" type="flex" align="middle"  :key="obj.name" v-for="obj in pizzaList">
               <el-col :span="6" class="item-pizza-name">{{obj.name}}</el-col>
               <el-col :span="18">
-                <el-row class="item-pizza-info" :key="item.id" v-for="item in obj.lists">
+                <el-row class="item-pizza-info" :key="item.id" v-for="item in obj.props">
                   <el-col :span="8">{{item.size+' 寸'}}</el-col>
                   <el-col :span="8">{{item.price+' RMB'}}</el-col>
                   <el-col :span="8"><button ><i class="el-icon-close"></i></button></el-col>
                 </el-row>
               </el-col>
+            </el-row>
+            <el-row v-if="pizzaList.length==0" class="none-pizza">
+              <el-col :span="24">商品为空</el-col>
             </el-row>
           </el-container>
         </el-container>
@@ -56,49 +58,42 @@
         name: "Admin",
       data(){
           return {
-            listHead:'添加商品',
             navList:{
-              listHead:'菜单列表',
               category:'商品',
               size:'尺寸',
               price:'价格',
               order:'删除'
             },
-            addGoods:{
-              goodsId:'',
-              goodsName:'',
-              goodsSize:'',
-              goodsPrice:''
-            },
-            pizzaList:[
+            addGoods:[
               {
-                name:'芝士披萨',
-                lists:[
-                  {/*id:1,*/size:'9',price:'38',},
-                  {/*id:2,*/size:'12',price:'38',},
+                name:'',
+                props:[
+                  {
+                    size:'',
+                    price:''
+                  },
                 ]
-              },
+              }
             ],
+            pizzaList:[],
           }
       },
       methods:{
-          addGoodsFn(){
-            this.pizzaList.forEach((pizza)=>{
-              if (this.addGoods.goodsName == pizza.name)
-               pizza.lists.forEach((option)=>{
-                 if (this.addGoods.goodsSize == option.size){
-                   this.$alert('该商品已经存在',{
-                     type:'warning',
-                     callback:action=>{}
-                   })
-                 } else {
-                    /*let json={size:'',price:''};
-                    json.size == this.addGoods.Size;
-                    json.price == this.addGoods.Price;
-                    console.log(json)*/
-                 }
-               })
-            })
+          addGoodsFn(goods,prop){
+            if (this.pizzaList.length > 0){
+
+            } else{
+              let json = {
+                name:goods.name,
+                props:[
+                  {
+                    size:prop.size,
+                    price:prop.price
+                  }
+                ]
+              };
+              this.pizzaList.push(json);
+            }
           }
       }
       /*组件内的守卫*/
@@ -199,6 +194,11 @@
           color: #fff;
         }
       }
+    }
+    .none-pizza{
+      text-align:center;
+      color: #ccc;
+      line-height: 100px;
     }
   }
 </style>

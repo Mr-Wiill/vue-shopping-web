@@ -6,20 +6,18 @@
           <el-row class="about-content-head">
             <h4>添加商品</h4>
           </el-row>
-          <el-form label-width="80px" class="add-goods-list" v-for="goods in addGoods" :key='goods.name' @submit.active.prevent>
+          <el-form label-width="80px" class="add-goods-list" @submit.native.prevent>
             <el-form-item label="商品名称">
-              <el-input type="text" v-model="goods.name" placeholder="请输入商品名称" required="required"></el-input>
+              <el-input v-model="goods.name" placeholder="请输入商品名称" required="required"></el-input>
             </el-form-item>
-            <el-row v-for="prop in goods.props" :key="prop.size">
-              <el-form-item label="商品尺寸">
-                <el-input type="text" v-model="prop.size" placeholder="请输入商品尺寸" required="required"></el-input>
-              </el-form-item>
-              <el-form-item label="商品价格">
-                <el-input type="text" v-model="prop.price" placeholder="请输入商品价格" required="required"></el-input>
-              </el-form-item>
-            </el-row>
+            <el-form-item label="商品尺寸">
+              <el-input v-model="goods.size" placeholder="请输入商品尺寸" required="required"></el-input>
+            </el-form-item>
+            <el-form-item label="商品价格">
+              <el-input v-model="goods.price" placeholder="请输入商品价格" required="required"></el-input>
+            </el-form-item>
             <el-form-item >
-              <el-button @click="addGoodsFn(goods,prop)">发布</el-button>
+              <el-button @click="goodsFn">发布</el-button>
             </el-form-item>
           </el-form>
         </el-container>
@@ -33,7 +31,7 @@
             <el-row class="menu-item menu-item-head">
               <el-col :span="6" v-for="(val,index) in navList" :key="index">{{val}}</el-col>
             </el-row>
-            <el-row class="menu-item" type="flex" align="middle"  :key="obj.name" v-for="obj in pizzaList">
+            <el-row class="menu-item" type="flex" align="middle" v-for="obj in pizzaList"  :key="obj.name">
               <el-col :span="6" class="item-pizza-name">{{obj.name}}</el-col>
               <el-col :span="18">
                 <el-row class="item-pizza-info" :key="item.id" v-for="item in obj.props">
@@ -64,35 +62,41 @@
               price:'价格',
               order:'删除'
             },
-            addGoods:[
-              {
-                name:'',
+            goods:{
+              name:'',
+              size:'',
+              price:''
+            },
+            pizzaList:[
+              /*{
+                name:'芝士披萨',
                 props:[
                   {
-                    size:'',
-                    price:''
+                    size:'9',
+                    price:'38'
+                  },
+                  {
+                    size:'20',
+                    price:'48'
                   },
                 ]
-              }
+              }*/
             ],
-            pizzaList:[],
           }
       },
       methods:{
-          addGoodsFn(goods,prop){
-            if (this.pizzaList.length > 0){
+          goodsFn(){
+            let that = this.goods;
+            let json={
+              name:that.name,
+              props:{
+                size:that.size,
+                price:that.price
+              }
+            };
+            // console.log(json)
+            if (this.pizzaList = !null && this.pizzaLi) {
 
-            } else{
-              let json = {
-                name:goods.name,
-                props:[
-                  {
-                    size:prop.size,
-                    price:prop.price
-                  }
-                ]
-              };
-              this.pizzaList.push(json);
             }
           }
       }

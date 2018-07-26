@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <app-header></app-header>
-    <router-view/>
+    <router-view></router-view>
     <el-container class="about-display">
       <el-row class="about-display-row"  type="flex" justify="space-between">
         <!--路由复用-->

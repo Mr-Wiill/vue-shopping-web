@@ -13,10 +13,10 @@
               <el-col :span="6">{{listNav.price}}</el-col>
               <el-col :span="6">{{listNav.order}}</el-col>
             </el-row>
-            <el-row class="menu-item" type="flex" align="middle"  :key="obj.id" v-for="obj in pizzaList">
+            <el-row class="menu-item" type="flex" align="middle"  :key="Math.random()" v-for="obj in pizzaList">
               <el-col :span="6" class="item-pizza-name">{{obj.name}}</el-col>
               <el-col :span="18">
-                <el-row class="item-pizza-info" :key="item.key" v-for="item in obj.lists">
+                <el-row class="item-pizza-info" :key="Math.random()" v-for="item in obj.lists">
                   <el-col :span="8">{{item.size}}</el-col>
                   <el-col :span="8">{{item.price+' RMB'}}</el-col>
                   <el-col :span="8"><button @click="addToCart(obj,item)"><i class="el-icon-plus"></i></button></el-col>
@@ -40,7 +40,7 @@
             </el-row>
             <el-container direction="vertical" >
               <el-row class="menu-item" :key="Math.random()" v-for="option in cart">
-                <el-col :span="12">{{option.goods}}<span>（{{option.size}}）</span></el-col>
+                <el-col :span="12">{{option.goods}}<span>（{{option.size+'寸'}}）</span></el-col>
                 <el-col :span="5">{{option.price*option.num+' RMB'}}</el-col>
                 <el-col :span="7" class="goods-number">
                   <button @click="minusNum(option)"><i class="el-icon-minus"></i></button>
@@ -83,17 +83,14 @@
             },
             pizzaList:[
               {
-                id:1,
                 name:'芝士披萨',
                 lists:[
                   {
-                    key:1,
-                    size:'9寸',
+                    size:'9',
                     price:'38',
                   },
                   {
-                    key:2,
-                    size:'12寸',
+                    size:'12',
                     price:'48',
                   }
                 ]

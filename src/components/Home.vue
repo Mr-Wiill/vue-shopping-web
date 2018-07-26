@@ -10,11 +10,13 @@
 </template>
 
 <script>
+  import bus from '../eventBus/index'
     export default {
         name: "Home",
       methods:{
         goTo(){
-          this.$router.push('/menu')
+          this.$router.push('/menu');
+          bus.$emit('changeMenu',2)       //把2传给header组件（兄弟组件间传值）
         }
       }
     }

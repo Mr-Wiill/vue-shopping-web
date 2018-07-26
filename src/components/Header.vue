@@ -21,6 +21,7 @@
 </template>
 
 <script>
+  import bus from '../eventBus/index'
     export default {
         name: "Header",
       data(){
@@ -81,6 +82,11 @@
           this.$router.push('link');    //指定页面（常用）
           this.$router.push({name:'routerName'});    //通过路由name跳转指定页面
         }
+      },
+      mounted(){
+          bus.$on('changeMenu',(value)=>{
+            this.checkId = value;
+          })
       }
     }
 </script>

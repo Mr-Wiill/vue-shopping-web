@@ -17,7 +17,7 @@
               <el-input v-model="goods.price" placeholder="请输入商品价格" required="required"></el-input>
             </el-form-item>
             <el-form-item >
-              <el-button @click="goodsFn">发布</el-button>
+              <el-button @click="addGoodsFn">发布</el-button>
             </el-form-item>
           </el-form>
         </el-container>
@@ -52,6 +52,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
     export default {
         name: "Admin",
       data(){
@@ -85,19 +86,13 @@
           }
       },
       methods:{
-          goodsFn(){
-            let that = this.goods;
-            let json={
-              name:that.name,
-              props:{
-                size:that.size,
-                price:that.price
-              }
-            };
-            // console.log(json)
-            if (this.pizzaList = !null && this.pizzaLi) {
-
-            }
+        addGoodsFn(){
+          axios.post('/pizza.json',this.goods)
+            .then(res=>{
+              this.$message('添加成功',{
+                callback:action=>{}
+              })
+            })
           }
       }
       /*组件内的守卫*/

@@ -13,15 +13,38 @@
               <el-col :span="6">{{listNav.price}}</el-col>
               <el-col :span="6">{{listNav.order}}</el-col>
             </el-row>
-            <el-row class="menu-item" type="flex" align="middle"  :key="Math.random()" v-for="obj in pizzaList">
-              <el-col :span="6" class="item-pizza-name">{{obj.name}}</el-col>
+            <el-row v-show="cheesePizza.length>0" class="menu-item" type="flex" align="middle">
+              <el-col :span="6" class="item-pizza-name">芝士披萨</el-col>
               <el-col :span="18">
-                <el-row class="item-pizza-info" :key="Math.random()" v-for="item in obj.lists">
-                  <el-col :span="8">{{item.size}}</el-col>
-                  <el-col :span="8">{{item.price+' RMB'}}</el-col>
-                  <el-col :span="8"><button @click="addToCart(obj,item)"><i class="el-icon-plus"></i></button></el-col>
+                <el-row class="item-pizza-info" v-for="pizza in cheesePizza"  :key="pizza.size">
+                  <el-col :span="8">{{pizza.size+' 寸'}}</el-col>
+                  <el-col :span="8">{{pizza.price+' RMB'}}</el-col>
+                  <el-col :span="8"><button @click="addToCart(pizza.name,pizza.size,pizza.price)"><i class="el-icon-plus"></i></button></el-col>
                 </el-row>
               </el-col>
+            </el-row>
+            <el-row v-show="sausagePizza.length>0" class="menu-item" type="flex" align="middle">
+              <el-col :span="6" class="item-pizza-name">香肠披萨</el-col>
+              <el-col :span="18">
+                <el-row class="item-pizza-info" v-for="pizza in sausagePizza"  :key="pizza.size">
+                  <el-col :span="8">{{pizza.size+' 寸'}}</el-col>
+                  <el-col :span="8">{{pizza.price+' RMB'}}</el-col>
+                  <el-col :span="8"><button @click="addToCart(pizza.name,pizza.size,pizza.price)"><i class="el-icon-plus"></i></button></el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row v-show="haweiiPizza.length>0" class="menu-item" type="flex" align="middle">
+              <el-col :span="6" class="item-pizza-name">夏威夷披萨</el-col>
+              <el-col :span="18">
+                <el-row class="item-pizza-info" v-for="pizza in haweiiPizza"  :key="pizza.size">
+                  <el-col :span="8">{{pizza.size+' 寸'}}</el-col>
+                  <el-col :span="8">{{pizza.price+' RMB'}}</el-col>
+                  <el-col :span="8"><button @click="addToCart(pizza.name,pizza.size,pizza.price)"><i class="el-icon-plus"></i></button></el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row v-if="cheesePizza.length==0 && sausagePizza.length==0 && haweiiPizza.length==0" class="none-pizza">
+              <el-col :span="24">商品为空</el-col>
             </el-row>
           </el-container>
         </el-container>
@@ -64,6 +87,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
     export default {
         name: "Menu",
       data(){
@@ -81,36 +105,47 @@
               price:'价格',
               number:'数量'
             },
-            pizzaList:[
-              {
-                name:'芝士披萨',
-                lists:[
-                  {
-                    size:'9',
-                    price:'38',
-                  },
-                  {
-                    size:'12',
-                    price:'48',
-                  }
-                ]
-              }
-            ],
+            cheesePizza:[],
+            sausagePizza:[],
+            haweiiPizza:[],
+            pizzaList:[],
             cart:[]
           }
       },
+      created(){
+        this.getPizza();
+      },
       methods:{
-          /*把商品加入购物车*/
-        addToCart(obj,item){
+        /*获取披萨列表*/
+        getPizza(){
+          axios.get('/pizza.json')
+            .then(response=>{
+              for (let key in response.data){
+                response.data[key].id = key;
+                this.pizzaList.push(response.data[key]);
+              }
+              this.pizzaList.forEach((pizza)=>{
+                if (pizza.name === '芝士披萨'){
+                  this.cheesePizza.push(pizza);
+                } else if (pizza.name === '香肠披萨'){
+                  this.sausagePizza.push(pizza)
+                } else if (pizza.name === '夏威夷披萨'){
+                  this.haweiiPizza.push(pizza)
+                }
+              })
+            });
+        },
+        /*把商品加入购物车*/
+        addToCart(name,size,price){
           let orderGoods = {    //需要添加到购物车的商品信息
-            goods:obj.name,
-            price:item.price,
-            size:item.size,
+            goods:name,
+            price:price,
+            size:size,
             num:1       //商品数量
           };
           if (this.cart.length >0){   //购物车不为空，进行判断
-            let result = this.cart.filter((option)=>{    //过滤出购物车已经有的商品，并等于result数组
-              return (option.goods === obj.name && option.size === item.size)   //通过商品的名字和尺寸来判断
+            let result = this.cart.filter((pizza)=>{    //过滤出购物车已经有的商品，并等于result数组
+              return (pizza.goods === name && pizza.size === size)   //通过商品的名字和尺寸来判断
             });
             if (result!=null && result.length >0){
               result.forEach((value)=>{     //购物车有的商品就数量加1
@@ -123,19 +158,34 @@
             this.cart.push(orderGoods);
           }
         },
+        /*增加购物车商品数量*/
         addNum(option){
           option.num ++;
         },
+        /*减少购物车商品数量*/
         minusNum(option){
           option.num --;
           if (option.num<=0){
             this.cart.splice(this.cart.indexOf(option),1) //当购物车里的商品数量小于0时，商品出购物车中移除
           }
         },
+        /*清空购物车*/
         emptyCart(){
           this.cart = [];
         },
-        submitOrder(){}
+        /*提交订单*/
+        submitOrder(){
+          this.$alert('确定提交订单？',{
+            callback:action=>{
+              axios.post('/orders.json',this.cart)
+                .then(res=>{
+                  this.$message('购买成功');
+                  this.cart='';
+                })
+            }
+          });
+
+        }
       },
       computed:{
           /*计算购物车总价格*/

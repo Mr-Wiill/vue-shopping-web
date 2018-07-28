@@ -6,9 +6,14 @@
           <el-row class="about-content-head">
             <h4>添加商品</h4>
           </el-row>
-          <el-form label-width="80px" class="add-goods-list" @submit.native.prevent>
+          <el-form label-width="70px" class="add-goods-list">
             <el-form-item label="商品名称">
-              <el-input v-model="goods.name" placeholder="请输入商品名称" required="required"></el-input>
+              <!--<el-input v-model="goods.name" placeholder="请输入商品名称" required="required"></el-input>-->
+              <el-select v-model="goods.name">
+                <el-option value="芝士披萨">芝士披萨</el-option>
+                <el-option value="香肠披萨">香肠披萨</el-option>
+                <el-option value="夏威夷披萨">夏威夷披萨</el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="商品尺寸">
               <el-input v-model="goods.size" placeholder="请输入商品尺寸" required="required"></el-input>
@@ -31,17 +36,37 @@
             <el-row class="menu-item menu-item-head">
               <el-col :span="6" v-for="(val,index) in navList" :key="index">{{val}}</el-col>
             </el-row>
-            <el-row class="menu-item" type="flex" align="middle" v-for="obj in pizzaList"  :key="obj.name">
-              <el-col :span="6" class="item-pizza-name">{{obj.name}}</el-col>
+            <el-row v-show="cheesePizza.length>0" class="menu-item" type="flex" align="middle">
+              <el-col :span="6" class="item-pizza-name">芝士披萨</el-col>
               <el-col :span="18">
-                <el-row class="item-pizza-info" :key="item.id" v-for="item in obj.props">
-                  <el-col :span="8">{{item.size+' 寸'}}</el-col>
-                  <el-col :span="8">{{item.price+' RMB'}}</el-col>
-                  <el-col :span="8"><button ><i class="el-icon-close"></i></button></el-col>
+                <el-row class="item-pizza-info" v-for="pizza in cheesePizza"  :key="pizza.size">
+                  <el-col :span="8">{{pizza.size+' 寸'}}</el-col>
+                  <el-col :span="8">{{pizza.price+' RMB'}}</el-col>
+                  <el-col :span="8"><button @click="deletePizza(cheesePizza,pizza.id)"><i class="el-icon-close"></i></button></el-col>
                 </el-row>
               </el-col>
             </el-row>
-            <el-row v-if="pizzaList.length==0" class="none-pizza">
+            <el-row v-show="sausagePizza.length>0" class="menu-item" type="flex" align="middle">
+              <el-col :span="6" class="item-pizza-name">香肠披萨</el-col>
+              <el-col :span="18">
+                <el-row class="item-pizza-info" v-for="pizza in sausagePizza"  :key="pizza.size">
+                  <el-col :span="8">{{pizza.size+' 寸'}}</el-col>
+                  <el-col :span="8">{{pizza.price+' RMB'}}</el-col>
+                  <el-col :span="8"><button @click="deletePizza(sausagePizza,pizza.id)"><i class="el-icon-close"></i></button></el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row v-show="haweiiPizza.length>0" class="menu-item" type="flex" align="middle">
+              <el-col :span="6" class="item-pizza-name">夏威夷披萨</el-col>
+              <el-col :span="18">
+                <el-row class="item-pizza-info" v-for="pizza in haweiiPizza"  :key="pizza.size">
+                  <el-col :span="8">{{pizza.size+' 寸'}}</el-col>
+                  <el-col :span="8">{{pizza.price+' RMB'}}</el-col>
+                  <el-col :span="8"><button @click="deletePizza(haweiiPizza,pizza.id)"><i class="el-icon-close"></i></button></el-col>
+                </el-row>
+              </el-col>
+            </el-row>
+            <el-row v-if="cheesePizza.length==0 && sausagePizza.length==0 && haweiiPizza.length==0" class="none-pizza">
               <el-col :span="24">商品为空</el-col>
             </el-row>
           </el-container>
@@ -68,33 +93,73 @@
               size:'',
               price:''
             },
-            pizzaList:[
-              /*{
-                name:'芝士披萨',
-                props:[
-                  {
-                    size:'9',
-                    price:'38'
-                  },
-                  {
-                    size:'20',
-                    price:'48'
-                  },
-                ]
-              }*/
-            ],
+            cheesePizza:[],
+            sausagePizza:[],
+            haweiiPizza:[],
+            pizzaList:[]
           }
       },
       methods:{
-        addGoodsFn(){
-          axios.post('/pizza.json',this.goods)
-            .then(res=>{
-              this.$message('添加成功',{
-                callback:action=>{}
+        getPizza(){
+          axios.get('/pizza.json')
+            .then(response=>{
+              for (let key in response.data){
+                response.data[key].id = key;
+                this.pizzaList.push(response.data[key]);
+              }
+              this.pizzaList.forEach((pizza)=>{
+                if (pizza.name === '芝士披萨'){
+                  this.cheesePizza.push(pizza);
+                } else if (pizza.name === '香肠披萨'){
+                  this.sausagePizza.push(pizza)
+                } else if (pizza.name === '夏威夷披萨'){
+                  this.haweiiPizza.push(pizza)
+                }
               })
+            });
+          // console.log(this.pizzaList)
+        },
+        addGoodsFn(){
+          let result = this.pizzaList.filter((pizza)=>{
+            return (pizza.name === this.goods.name && pizza.size === this.goods.size)
+          });
+          if (result.length>0 && result!=null){
+            this.$alert('商品已存在，无需再添加',{callback:action=>{}})
+          } else {
+           /* if (this.goods.name === '芝士披萨'){
+              this.cheesePizza.push(this.goods);
+            } else if (this.goods.name === '香肠披萨'){
+              this.sausagePizza.push(this.goods)
+            } else if (this.goods.name === '夏威夷披萨'){
+              this.haweiiPizza.push(this.goods)
+            }*/
+            axios.post('/pizza.json',this.goods)
+            .then(res=>{
+              this.$message('添加成功');
+              this.goods.name=null;
+              this.goods.size=null;
+              this.goods.price=null;
             })
           }
+          },
+        deletePizza(arr,val){
+          arr.forEach((pizza,index)=>{
+            if (pizza.id = val){
+              arr.splice(index,1);
+            }
+          });
+          axios.delete('/pizza/'+val+'/.json')
+            .then(res=>{
+              this.$message('删除成功！')
+            })
+        }
+      },
+      created(){
+        this.getPizza();
+      },
+      watch:{
       }
+
       /*组件内的守卫*/
       /*
       beforeRouteEnter:(to,from,next)=>{    //进入目标组件时执行

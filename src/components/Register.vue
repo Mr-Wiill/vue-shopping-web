@@ -21,7 +21,7 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  // import axios from 'axios'
     export default {
         name: "Register",
       data(){
@@ -41,7 +41,7 @@
       },
       methods:{
         selectData(){
-          axios.get('/users.json')
+          this.axios.get('/users.json')
             .then((result)=>{
               let arr = [];
               for (let key in result.data){
@@ -100,7 +100,7 @@
             cancelButtonText:'取消',
             type:'info'
           }).then(response=>{
-            axios.post('/users.json',this.user)
+            this.axios.post('/users.json',this.user)
               .then(response=>{
                 this.$router.push('/login')
               });

@@ -36,37 +36,18 @@
             <el-row class="menu-item menu-item-head">
               <el-col :span="6" v-for="(val,index) in navList" :key="index">{{val}}</el-col>
             </el-row>
-            <el-row v-show="cheesePizza.length>0" class="menu-item" type="flex" align="middle">
-              <el-col :span="6" class="item-pizza-name">芝士披萨</el-col>
+            <el-row v-show="pizzaList.length>0" class="menu-item" type="flex" align="middle"
+                    v-for="pizza in pizzaList"  :key="Math.random()">
+              <el-col :span="6" class="item-pizza-name">{{pizza.name}}</el-col>
               <el-col :span="18">
-                <el-row class="item-pizza-info" v-for="pizza in cheesePizza"  :key="pizza.size">
+                <el-row class="item-pizza-info">
                   <el-col :span="8">{{pizza.size+' 寸'}}</el-col>
                   <el-col :span="8">{{pizza.price+' RMB'}}</el-col>
-                  <el-col :span="8"><button @click="deletePizza(cheesePizza,pizza.id)"><i class="el-icon-close"></i></button></el-col>
+                  <el-col :span="8"><button @click="deletePizza(pizza.id)"><i class="el-icon-plus"></i></button></el-col>
                 </el-row>
               </el-col>
             </el-row>
-            <el-row v-show="sausagePizza.length>0" class="menu-item" type="flex" align="middle">
-              <el-col :span="6" class="item-pizza-name">香肠披萨</el-col>
-              <el-col :span="18">
-                <el-row class="item-pizza-info" v-for="pizza in sausagePizza"  :key="pizza.size">
-                  <el-col :span="8">{{pizza.size+' 寸'}}</el-col>
-                  <el-col :span="8">{{pizza.price+' RMB'}}</el-col>
-                  <el-col :span="8"><button @click="deletePizza(sausagePizza,pizza.id)"><i class="el-icon-close"></i></button></el-col>
-                </el-row>
-              </el-col>
-            </el-row>
-            <el-row v-show="haweiiPizza.length>0" class="menu-item" type="flex" align="middle">
-              <el-col :span="6" class="item-pizza-name">夏威夷披萨</el-col>
-              <el-col :span="18">
-                <el-row class="item-pizza-info" v-for="pizza in haweiiPizza"  :key="pizza.size">
-                  <el-col :span="8">{{pizza.size+' 寸'}}</el-col>
-                  <el-col :span="8">{{pizza.price+' RMB'}}</el-col>
-                  <el-col :span="8"><button @click="deletePizza(haweiiPizza,pizza.id)"><i class="el-icon-close"></i></button></el-col>
-                </el-row>
-              </el-col>
-            </el-row>
-            <el-row v-if="cheesePizza.length==0 && sausagePizza.length==0 && haweiiPizza.length==0" class="none-pizza">
+            <el-row v-if="pizzaList.length==0" class="none-pizza">
               <el-col :span="24">商品为空</el-col>
             </el-row>
           </el-container>
@@ -77,7 +58,7 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  // import axios from 'axios'
     export default {
         name: "Admin",
       data(){
@@ -93,71 +74,57 @@
               size:'',
               price:''
             },
-            cheesePizza:[],
-            sausagePizza:[],
-            haweiiPizza:[],
-            pizzaList:[]
+            // pizzaList:[]
           }
       },
       methods:{
         getPizza(){
-          axios.get('/pizza.json')
+          this.axios.get('/pizza.json')
             .then(response=>{
+              let pizzas = [];
               for (let key in response.data){
                 response.data[key].id = key;
-                this.pizzaList.push(response.data[key]);
+                pizzas.push(response.data[key]);
               }
-              this.pizzaList.forEach((pizza)=>{
-                if (pizza.name === '芝士披萨'){
-                  this.cheesePizza.push(pizza);
-                } else if (pizza.name === '香肠披萨'){
-                  this.sausagePizza.push(pizza)
-                } else if (pizza.name === '夏威夷披萨'){
-                  this.haweiiPizza.push(pizza)
-                }
-              })
+              this.$store.commit('setMenuPizza',pizzas);
             });
-          // console.log(this.pizzaList)
         },
         addGoodsFn(){
           let result = this.pizzaList.filter((pizza)=>{
             return (pizza.name === this.goods.name && pizza.size === this.goods.size)
           });
-          if (result.length>0 && result!=null){
+          if (result.length > 0 && result!=null){
             this.$alert('商品已存在，无需再添加',{callback:action=>{}})
           } else {
-           /* if (this.goods.name === '芝士披萨'){
-              this.cheesePizza.push(this.goods);
-            } else if (this.goods.name === '香肠披萨'){
-              this.sausagePizza.push(this.goods)
-            } else if (this.goods.name === '夏威夷披萨'){
-              this.haweiiPizza.push(this.goods)
-            }*/
-            axios.post('/pizza.json',this.goods)
+            this.axios.post('/pizza.json',this.goods)
             .then(res=>{
+              this.$store.commit('addMenuPizza',this.goods);
               this.$message('添加成功');
-              this.goods.name=null;
-              this.goods.size=null;
-              this.goods.price=null;
+              /*this.goods.name='';
+              this.goods.size='';
+              this.goods.price='';*/
             })
           }
           },
-        deletePizza(arr,val){
-          arr.forEach((pizza,index)=>{
-            if (pizza.id = val){
-              arr.splice(index,1);
-            }
-          });
-          axios.delete('/pizza/'+val+'/.json')
+        deletePizza(id){
+          this.axios.delete('/pizza/'+id+'/.json')
             .then(res=>{
-              this.$message('删除成功！')
+              this.$store.commit('deleteMenuPizza',id);
+              this.$message('删除成功！');
             })
         }
       },
       created(){
         this.getPizza();
       },
+      computed:{
+        pizzaList(){
+          /*从vuex中获取pizza数据*/
+          return  this.$store.state.menuPizza;
+        },
+      },
       watch:{
+        'addGoodsFn':'getPizza'
       }
 
       /*组件内的守卫*/

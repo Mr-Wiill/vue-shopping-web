@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  // import axios from 'axios'
     export default {
         name: "Login",
       data(){
@@ -31,7 +31,7 @@
       },
       methods:{
         login(){
-          axios.get('/users.json')
+          this.axios.get('/users.json')
             .then(response=>{
               let users = [];
               for (let key in response.data){

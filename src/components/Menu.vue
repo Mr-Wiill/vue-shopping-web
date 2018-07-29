@@ -13,17 +13,18 @@
               <el-col :span="6">{{listNav.price}}</el-col>
               <el-col :span="6">{{listNav.order}}</el-col>
             </el-row>
-            <el-row v-show="cheesePizza.length>0" class="menu-item" type="flex" align="middle">
-              <el-col :span="6" class="item-pizza-name">芝士披萨</el-col>
+            <el-row v-show="pizzaList.length>0" class="menu-item" type="flex" align="middle"
+                    v-for="pizza in pizzaList"  :key="pizza.size">
+              <el-col :span="6" class="item-pizza-name">{{pizza.name}}</el-col>
               <el-col :span="18">
-                <el-row class="item-pizza-info" v-for="pizza in cheesePizza"  :key="pizza.size">
+                <el-row class="item-pizza-info">
                   <el-col :span="8">{{pizza.size+' 寸'}}</el-col>
                   <el-col :span="8">{{pizza.price+' RMB'}}</el-col>
                   <el-col :span="8"><button @click="addToCart(pizza.name,pizza.size,pizza.price)"><i class="el-icon-plus"></i></button></el-col>
                 </el-row>
               </el-col>
             </el-row>
-            <el-row v-show="sausagePizza.length>0" class="menu-item" type="flex" align="middle">
+           <!-- <el-row v-show="sausagePizza.length>0" class="menu-item" type="flex" align="middle">
               <el-col :span="6" class="item-pizza-name">香肠披萨</el-col>
               <el-col :span="18">
                 <el-row class="item-pizza-info" v-for="pizza in sausagePizza"  :key="pizza.size">
@@ -42,8 +43,8 @@
                   <el-col :span="8"><button @click="addToCart(pizza.name,pizza.size,pizza.price)"><i class="el-icon-plus"></i></button></el-col>
                 </el-row>
               </el-col>
-            </el-row>
-            <el-row v-if="cheesePizza.length==0 && sausagePizza.length==0 && haweiiPizza.length==0" class="none-pizza">
+            </el-row>-->
+            <el-row v-if="pizzaList.length==0" class="none-pizza">
               <el-col :span="24">商品为空</el-col>
             </el-row>
           </el-container>
@@ -87,7 +88,7 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  // import axios from 'axios'
     export default {
         name: "Menu",
       data(){
@@ -105,10 +106,7 @@
               price:'价格',
               number:'数量'
             },
-            cheesePizza:[],
-            sausagePizza:[],
-            haweiiPizza:[],
-            pizzaList:[],
+            // pizzaList:[],
             cart:[]
           }
       },
@@ -118,21 +116,17 @@
       methods:{
         /*获取披萨列表*/
         getPizza(){
-          axios.get('/pizza.json')
+          /*通过vuex来获取数据*/
+          this.axios.get('/pizza.json')
             .then(response=>{
+              let pizzas = [];
               for (let key in response.data){
-                response.data[key].id = key;
-                this.pizzaList.push(response.data[key]);
+                response.data.id = key;
+                pizzas.push(response.data[key]);
               }
-              this.pizzaList.forEach((pizza)=>{
-                if (pizza.name === '芝士披萨'){
-                  this.cheesePizza.push(pizza);
-                } else if (pizza.name === '香肠披萨'){
-                  this.sausagePizza.push(pizza)
-                } else if (pizza.name === '夏威夷披萨'){
-                  this.haweiiPizza.push(pizza)
-                }
-              })
+              /*将请求下来的数据存储到vuex中*/
+              this.$store.commit('setMenuPizza',pizzas);
+              console.log(this.pizzaList)
             });
         },
         /*把商品加入购物车*/
@@ -177,7 +171,7 @@
         submitOrder(){
           this.$alert('确定提交订单？',{
             callback:action=>{
-              axios.post('/orders.json',this.cart)
+              this.axios.post('/orders.json',this.cart)
                 .then(res=>{
                   this.$message('购买成功');
                   this.cart='';
@@ -188,6 +182,10 @@
         }
       },
       computed:{
+        pizzaList(){
+          /*从vuex中获取pizza数据*/
+          return  this.$store.state.menuPizza;
+        },
           /*计算购物车总价格*/
         total(){
           let totalCost = 0;

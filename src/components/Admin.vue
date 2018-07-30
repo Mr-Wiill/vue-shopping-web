@@ -6,14 +6,14 @@
           <el-row class="about-content-head">
             <h4>添加商品</h4>
           </el-row>
-          <el-form label-width="70px" class="add-goods-list">
+          <el-form label-width="70px" class="add-goods-list" @submit.native.prevent>
             <el-form-item label="商品名称">
-              <!--<el-input v-model="goods.name" placeholder="请输入商品名称" required="required"></el-input>-->
-              <el-select v-model="goods.name">
+              <el-input v-model="goods.name" placeholder="请输入商品名称" required="required"></el-input>
+              <!--<el-select v-model="goods.name">
                 <el-option value="芝士披萨">芝士披萨</el-option>
                 <el-option value="香肠披萨">香肠披萨</el-option>
                 <el-option value="夏威夷披萨">夏威夷披萨</el-option>
-              </el-select>
+              </el-select>-->
             </el-form-item>
             <el-form-item label="商品尺寸">
               <el-input v-model="goods.size" placeholder="请输入商品尺寸" required="required"></el-input>
@@ -43,9 +43,10 @@
                 <el-row class="item-pizza-info">
                   <el-col :span="8">{{pizza.size+' 寸'}}</el-col>
                   <el-col :span="8">{{pizza.price+' RMB'}}</el-col>
-                  <el-col :span="8"><button @click="deletePizza(pizza.id)"><i class="el-icon-plus"></i></button></el-col>
+                  <el-col :span="8"><button @click="deletePizza(pizza.id)"><i class="el-icon-delete"></i></button></el-col>
                 </el-row>
               </el-col>
+              .
             </el-row>
             <el-row v-if="pizzaList.length==0" class="none-pizza">
               <el-col :span="24">商品为空</el-col>
@@ -58,7 +59,6 @@
 </template>
 
 <script>
-  // import axios from 'axios'
     export default {
         name: "Admin",
       data(){
@@ -100,9 +100,9 @@
             .then(res=>{
               this.$store.commit('addMenuPizza',this.goods);
               this.$message('添加成功');
-              /*this.goods.name='';
+              this.goods.name='';
               this.goods.size='';
-              this.goods.price='';*/
+              this.goods.price='';
             })
           }
           },
@@ -124,7 +124,11 @@
         },
       },
       watch:{
-        'addGoodsFn':'getPizza'
+        pizzaList:{
+          handler(){
+            this.getPizza();
+          }
+        }
       }
 
       /*组件内的守卫*/

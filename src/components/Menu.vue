@@ -14,7 +14,7 @@
               <el-col :span="6">{{listNav.order}}</el-col>
             </el-row>
             <el-row v-show="pizzaList.length>0" class="menu-item" type="flex" align="middle"
-                    v-for="pizza in pizzaList"  :key="pizza.size">
+                    v-for="pizza in pizzaList"  :key="Math.random()">
               <el-col :span="6" class="item-pizza-name">{{pizza.name}}</el-col>
               <el-col :span="18">
                 <el-row class="item-pizza-info">
@@ -88,7 +88,6 @@
 </template>
 
 <script>
-  // import axios from 'axios'
     export default {
         name: "Menu",
       data(){
@@ -126,7 +125,7 @@
               }
               /*将请求下来的数据存储到vuex中*/
               this.$store.commit('setMenuPizza',pizzas);
-              console.log(this.pizzaList)
+              // console.log(this.pizzaList)
             });
         },
         /*把商品加入购物车*/
@@ -178,7 +177,6 @@
                 })
             }
           });
-
         }
       },
       computed:{
@@ -315,6 +313,11 @@
           color: #696969;
         }
       }
+    }
+    .none-pizza{
+      text-align: center;
+      color: #cccccc;
+      line-height: 100px;
     }
   }
 </style>

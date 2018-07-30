@@ -4,17 +4,25 @@
       <el-col :span="6" class="logo"><h2>{{logo}}</h2></el-col>
       <el-col :span="12">
         <ul class="el-menu">
-          <li :index="item.id" v-for="item in menus" @click="toggle(item.id)" :class="{'is-active':item.id==checkId}">
+          <li :index="item.id" v-for="item in menus"
+              @click="toggle(item.id)"
+              :class="{'is-active':item.id==checkId}">
             <router-link :to="item.url">{{item.name}}</router-link>
           </li>
         </ul>
       </el-col>
       <el-col :span="6" class="entry">
-        <ul class="el-menu">
-          <li :index="item.id" v-for="item in userEntry" @click="clicked(item.id)" :class="{'is-active':item.id==checkEntry}">
+        <ul class="el-menu" v-show="!isLogin">
+          <li :index="item.id" v-for="item in userEntry"
+              @click="clicked(item.id)"
+              :class="{'is-active':item.id==checkEntry}">
             <router-link :to="{name:item.link}">{{item.name}}</router-link>
           </li>
         </ul>
+        <el-row v-show="isLogin">
+          <el-col :span="12">{{currentUser}}</el-col>
+          <el-col :span="12"><router-link to="/login">[退出]</router-link></el-col>
+        </el-row>
       </el-col>
     </el-row>
   </el-header>
@@ -61,7 +69,7 @@
                 name:'注册'
               }
             ],
-            checkId:1,
+            checkId:null,
             checkEntry:null
           }
       },
@@ -69,6 +77,7 @@
         toggle(val){
           this.checkEntry = null;
           this.checkId = val;
+          // console.log(this.currentUser);
         },
         clicked(val){
           this.checkId = null;
@@ -83,11 +92,48 @@
           this.$router.push({name:'routerName'});    //通过路由name跳转指定页面
         }
       },
-      mounted(){
+      watch:{
+          /*监听路由，并显示导航栏的选中效果*/
+        '$route':{
+          handler(){
+            let linkName = this.$route.name;
+            /*if (linkName === 'homeLink'){
+              this.checkId = 1
+            } else if (linkName === 'menuLink'){
+              this.checkId = 2;
+            } else if (linkName === 'aboutLink'){
+              this.checkId = 3;
+            } else if (linkName === 'adminLink'){
+              this.checkId = 4;
+            } else if (linkName === 'loginLink'){
+              this.checkEntry = 1;
+            } else if (linkName === 'registerLink'){
+              this.checkEntry = 2;
+            }*/
+            switch (linkName){
+              case 'homeLink': this.checkId = 1;this.checkEntry = null; break;
+              case 'menuLink': this.checkId = 2;this.checkEntry = null; break;
+              case 'aboutLink': this.checkId = 3;this.checkEntry = null; break;
+              case 'adminLink': this.checkId = 4;this.checkEntry = null; break;
+              case 'loginLink': this.checkEntry = 1;this.checkId = null; break;
+              case 'registerLink': this.checkEntry = 2;this.checkId = null; break;
+            }
+          }
+        }
+      },
+      computed:{
+        currentUser(){
+          return this.$store.getters.getCurrentUser;
+        },
+        isLogin(){
+          return this.$store.getters.isLogin;
+        }
+      },
+      /*mounted(){
           bus.$on('changeMenu',(value)=>{
             this.checkId = value;
           })
-      }
+      }*/
     }
 </script>
 

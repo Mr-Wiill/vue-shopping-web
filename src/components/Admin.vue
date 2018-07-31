@@ -120,7 +120,7 @@
       computed:{
         pizzaList(){
           /*从vuex中获取pizza数据*/
-          return  this.$store.state.menuPizza;
+          return  this.$store.getters.getMenuPizza;
         },
       },
       watch:{

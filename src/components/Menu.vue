@@ -125,7 +125,6 @@
               }
               /*将请求下来的数据存储到vuex中*/
               this.$store.commit('setMenuPizza',pizzas);
-              // console.log(this.pizzaList)
             });
         },
         /*把商品加入购物车*/
@@ -168,21 +167,33 @@
         },
         /*提交订单*/
         submitOrder(){
-          this.$alert('确定提交订单？',{
-            callback:action=>{
-              this.axios.post('/orders.json',this.cart)
-                .then(res=>{
-                  this.$message('购买成功');
-                  this.cart='';
-                })
-            }
-          });
+          if (this.getStatus == true){
+            this.$alert('确定提交订单？',{
+              callback:action=>{
+                this.axios.post('/orders.json',this.cart)
+                  .then(res=>{
+                    this.$message('购买成功');
+                    this.cart='';
+                  })
+              }
+            });
+          } else {
+            this.$alert('您还未登陆，请先登录',{
+              type:'warning',
+              callback:action=>{
+                this.$router.push('/login')
+              }
+            });
+          }
         }
       },
       computed:{
         pizzaList(){
           /*从vuex中获取pizza数据*/
-          return  this.$store.state.menuPizza;
+          return this.$store.getters.getMenuPizza;
+        },
+        getStatus(){
+          return this.$store.getters.isLogin;
         },
           /*计算购物车总价格*/
         total(){

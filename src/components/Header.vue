@@ -48,11 +48,16 @@
               },
               {
                 id:3,
+                url:'/order',
+                name:'订单'
+              },
+              {
+                id:4,
                 url:'/about',
                 name:'关于'
               },
               {
-                id:4,
+                id:5,
                 url:'/admin',
                 name:'管理'
               }

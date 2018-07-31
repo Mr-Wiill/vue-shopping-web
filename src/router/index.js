@@ -7,6 +7,7 @@ import Admin from '@/components/Admin'
 import About from '@/components/About'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
+import Order from '@/components/Orders'
 
 /*二级路由*/
 import History from '@/components/about/content/History'
@@ -43,6 +44,11 @@ const router =  [
       path:'/admin',
       name:'adminLink',
       component:Admin
+    },
+    {
+      path:'/order',
+      name:'orderLink',
+      component:Order
     },
     {
       path:'/about',      //一级路由

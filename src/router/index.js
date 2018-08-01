@@ -3,7 +3,7 @@ import Router from 'vue-router'
 /*一级路由*/
 import Home from '@/components/Home'
 import Menu from '@/components/Menu'
-import Admin from '@/components/Admin'
+import Admin from '@/components/admin/Admin'
 import About from '@/components/About'
 import Login from '@/components/Login'
 import Register from '@/components/Register'

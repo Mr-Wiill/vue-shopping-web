@@ -118,8 +118,9 @@
             switch (linkName){
               case 'homeLink': this.checkId = 1;this.checkEntry = null; break;
               case 'menuLink': this.checkId = 2;this.checkEntry = null; break;
-              case 'aboutLink': this.checkId = 3;this.checkEntry = null; break;
-              case 'adminLink': this.checkId = 4;this.checkEntry = null; break;
+              case 'orderLink': this.checkId = 3;this.checkEntry = null; break;
+              case 'aboutLink': this.checkId = 4;this.checkEntry = null; break;
+              case 'adminLink': this.checkId = 5;this.checkEntry = null; break;
               case 'loginLink': this.checkEntry = 1;this.checkId = null; break;
               case 'registerLink': this.checkEntry = 2;this.checkId = null; break;
             }

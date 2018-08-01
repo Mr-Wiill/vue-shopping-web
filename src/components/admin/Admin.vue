@@ -9,11 +9,6 @@
           <el-form label-width="70px" class="add-goods-list" @submit.native.prevent>
             <el-form-item label="商品名称">
               <el-input v-model="goods.name" placeholder="请输入商品名称" required="required"></el-input>
-              <!--<el-select v-model="goods.name">
-                <el-option value="芝士披萨">芝士披萨</el-option>
-                <el-option value="香肠披萨">香肠披萨</el-option>
-                <el-option value="夏威夷披萨">夏威夷披萨</el-option>
-              </el-select>-->
             </el-form-item>
             <el-form-item label="商品尺寸">
               <el-input v-model="goods.size" placeholder="请输入商品尺寸" required="required"></el-input>
@@ -90,20 +85,24 @@
             });
         },
         addGoodsFn(){
-          let result = this.pizzaList.filter((pizza)=>{
-            return (pizza.name === this.goods.name && pizza.size === this.goods.size)
-          });
-          if (result.length > 0 && result!=null){
-            this.$alert('商品已存在，无需再添加',{callback:action=>{}})
+          if (this.goods.name == '' || this.goods.size == '' || this.goods.price == ''){
+            this.$message('商品信息不能为空');
           } else {
-            this.axios.post('/pizza.json',this.goods)
-            .then(res=>{
-              this.$store.commit('addMenuPizza',this.goods);
-              this.$message('添加成功');
-              this.goods.name='';
-              this.goods.size='';
-              this.goods.price='';
-            })
+            let result = this.pizzaList.filter((pizza)=>{
+              return (pizza.name === this.goods.name && pizza.size === this.goods.size)
+            });
+            if (result.length > 0 && result!=null){
+              this.$alert('商品已存在，无需再添加',{callback:action=>{}})
+            } else {
+              this.axios.post('/pizza.json',this.goods)
+                .then(res=>{
+                  this.$store.commit('addMenuPizza',this.goods);
+                  this.$message('添加成功');
+                  this.goods.name='';
+                  this.goods.size='';
+                  this.goods.price='';
+                })
+            }
           }
           },
         deletePizza(id){

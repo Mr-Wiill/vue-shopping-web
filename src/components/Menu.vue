@@ -171,10 +171,10 @@
             this.$alert('确定提交订单？',{
               callback:action=>{
                 this.axios.post('/orders.json',this.cart)
-                  .then(res=>{
-                    this.$message('购买成功');
-                    this.cart='';
-                  })
+                .then(res=>{
+                  this.$message('购买成功');
+                  this.cart='';
+                })
               }
             });
           } else {

@@ -7,6 +7,7 @@ import ElementUi from 'element-ui'
 import router from './router'
 import 'element-ui/lib/theme-chalk/index.css'
 import {store} from './store'   //引入vuex实例store
+import moment from 'moment'
 
 Vue.config.productionTip = false;
 Vue.use(ElementUi);

@@ -57,14 +57,14 @@ const router =  [
       children:[          //二级路由
         {
           path:'/',
-          name:'historyLink',
-          component:History
-        },
-        {
-          path:'/about/express',
           name:'expressLink',
           component:Express
         },
+        /*{
+          path:'/about/express',
+          name:'expressLink',
+          component:Express
+        },*/
         {
           path:'/about/guide',
           name:'guideLink',

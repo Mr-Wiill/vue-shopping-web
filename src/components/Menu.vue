@@ -20,7 +20,7 @@
                 <el-row class="item-pizza-info">
                   <el-col :span="8">{{pizza.size+' 寸'}}</el-col>
                   <el-col :span="8">{{pizza.price+' RMB'}}</el-col>
-                  <el-col :span="8"><button @click="addToCart(pizza.name,pizza.size,pizza.price)"><i class="el-icon-plus"></i></button></el-col>
+                  <el-col :span="8"><button @click="addToOrder(pizza.name,pizza.size,pizza.price)"><i class="el-icon-plus"></i></button></el-col>
                 </el-row>
               </el-col>
             </el-row>
@@ -30,7 +30,7 @@
                 <el-row class="item-pizza-info" v-for="pizza in sausagePizza"  :key="pizza.size">
                   <el-col :span="8">{{pizza.size+' 寸'}}</el-col>
                   <el-col :span="8">{{pizza.price+' RMB'}}</el-col>
-                  <el-col :span="8"><button @click="addToCart(pizza.name,pizza.size,pizza.price)"><i class="el-icon-plus"></i></button></el-col>
+                  <el-col :span="8"><button @click="addToOrder(pizza.name,pizza.size,pizza.price)"><i class="el-icon-plus"></i></button></el-col>
                 </el-row>
               </el-col>
             </el-row>
@@ -40,7 +40,7 @@
                 <el-row class="item-pizza-info" v-for="pizza in haweiiPizza"  :key="pizza.size">
                   <el-col :span="8">{{pizza.size+' 寸'}}</el-col>
                   <el-col :span="8">{{pizza.price+' RMB'}}</el-col>
-                  <el-col :span="8"><button @click="addToCart(pizza.name,pizza.size,pizza.price)"><i class="el-icon-plus"></i></button></el-col>
+                  <el-col :span="8"><button @click="addToOrder(pizza.name,pizza.size,pizza.price)"><i class="el-icon-plus"></i></button></el-col>
                 </el-row>
               </el-col>
             </el-row>-->
@@ -50,35 +50,37 @@
           </el-container>
         </el-container>
       </el-col>
-      <el-col :span="8" :offset="1" class="shopping-cart about-content">
+      <el-col :span="8" :offset="1" class="shopping-order about-content">
         <el-container direction="vertical">
           <el-row class="about-content-head">
-            <h4>{{cartList.cartHead}}</h4>
+            <h4>{{orderList.orderHead}}</h4>
           </el-row>
-          <el-row v-if="cart.length<1" class="NoGoods">购物车为空</el-row>
+          <el-row v-if="order.length<1" class="NoGoods">购物车为空</el-row>
           <el-container v-else direction="vertical">
             <el-row class="menu-item">
-              <el-col :span="12">{{cartList.goods}}</el-col>
-              <el-col :span="5">{{cartList.price}}</el-col>
-              <el-col :span="7">{{cartList.number}}</el-col>
+              <el-col :span="12">{{orderList.goods}}</el-col>
+              <el-col :span="5">{{orderList.price}}</el-col>
+              <el-col :span="7">{{orderList.number}}</el-col>
             </el-row>
             <el-container direction="vertical" >
-              <el-row class="menu-item" :key="Math.random()" v-for="option in cart">
-                <el-col :span="12">{{option.goods}}<span>（{{option.size+'寸'}}）</span></el-col>
-                <el-col :span="5">{{option.price*option.num+' RMB'}}</el-col>
-                <el-col :span="7" class="goods-number">
-                  <button @click="minusNum(option)"><i class="el-icon-minus"></i></button>
-                  <span>{{option.num}}</span>
-                  <button @click="addNum(option)"><i class="el-icon-plus"></i></button>
-                </el-col>
-              </el-row>
-              <el-row class="goods-price-total" type="flex" align="middle">
-                <el-col :span="20">总计：{{total+' RMB'}}</el-col>
-                <el-col :span="4" class="empty-goods"><img @click="emptyCart" title="一键清空购物车" src="../assets/empty.png"></el-col>
-              </el-row>
-              <el-row class="submit-btn">
-                <el-col><el-button @click="submitOrder">提交</el-button></el-col>
-              </el-row>
+              <el-form>
+                <el-row class="menu-item" :key="Math.random()" v-for="option in order">
+                  <el-col :span="12">{{option.goods}}<span>（{{option.size+'寸'}}）</span></el-col>
+                  <el-col :span="5">{{option.price*option.num+' RMB'}}</el-col>
+                  <el-col :span="7" class="goods-number">
+                    <button @click="minusNum(option)"><i class="el-icon-minus"></i></button>
+                    <span>{{option.num}}</span>
+                    <button @click="addNum(option)"><i class="el-icon-plus"></i></button>
+                  </el-col>
+                </el-row>
+                <el-row class="goods-price-total" type="flex" align="middle">
+                  <el-col :span="20">总计：{{total+' RMB'}}</el-col>
+                  <el-col :span="4" class="empty-goods"><img @click="emptyorder" title="一键清空购物车" src="../assets/empty.png"></el-col>
+                </el-row>
+                <el-row class="submit-btn">
+                  <el-col><el-button @click="submitOrder">提交</el-button></el-col>
+                </el-row>
+              </el-form>
             </el-container>
           </el-container>
         </el-container>
@@ -88,6 +90,7 @@
 </template>
 
 <script>
+  import moment from 'moment'
     export default {
         name: "Menu",
       data(){
@@ -99,18 +102,21 @@
               price:'价格',
               order:'加入购物车'
             },
-            cartList:{
-              cartHead:'购物车',
+            orderList:{
+              orderHead:'购物车',
               goods:'商品',
               price:'价格',
               number:'数量'
             },
             // pizzaList:[],
-            cart:[]
+            order:[]
           }
       },
       created(){
         this.getPizza();
+      },
+      mounted(){
+        // console.log(moment().format('YYYYMMDDHHmmss'))
       },
       methods:{
         /*获取披萨列表*/
@@ -128,15 +134,15 @@
             });
         },
         /*把商品加入购物车*/
-        addToCart(name,size,price){
+        addToOrder(name,size,price){
           let orderGoods = {    //需要添加到购物车的商品信息
             goods:name,
             price:price,
             size:size,
             num:1       //商品数量
           };
-          if (this.cart.length >0){   //购物车不为空，进行判断
-            let result = this.cart.filter((pizza)=>{    //过滤出购物车已经有的商品，并等于result数组
+          if (this.order.length >0){   //购物车不为空，进行判断
+            let result = this.order.filter((pizza)=>{    //过滤出购物车已经有的商品，并等于result数组
               return (pizza.goods === name && pizza.size === size)   //通过商品的名字和尺寸来判断
             });
             if (result!=null && result.length >0){
@@ -144,10 +150,10 @@
                 value.num++
               })
             } else {
-              this.cart.push((orderGoods))    //result为空，说明购物车没有这商品，直接加入购物车
+              this.order.push((orderGoods))    //result为空，说明购物车没有这商品，直接加入购物车
             }
           } else {      //购物车为空，直接添加商品
-            this.cart.push(orderGoods);
+            this.order.push(orderGoods);
           }
         },
         /*增加购物车商品数量*/
@@ -158,34 +164,38 @@
         minusNum(option){
           option.num --;
           if (option.num<=0){
-            this.cart.splice(this.cart.indexOf(option),1) //当购物车里的商品数量小于0时，商品出购物车中移除
+            this.order.splice(this.order.indexOf(option),1) //当购物车里的商品数量小于0时，商品出购物车中移除
           }
         },
         /*清空购物车*/
-        emptyCart(){
-          this.cart = [];
+        emptyorder(){
+          this.order = [];
         },
         /*提交订单*/
-        submitOrder(){
-          if (this.getStatus == true){
-            this.$alert('确定提交订单？',{
-              callback:action=>{
-                this.axios.post('/orders.json',this.cart)
-                .then(res=>{
-                  this.$message('购买成功');
-                  this.cart='';
-                })
-              }
-            });
-          } else {
-            this.$alert('您还未登陆，请先登录',{
-              type:'warning',
-              callback:action=>{
-                this.$router.push('/login')
-              }
-            });
-          }
-        }
+        // submitOrder(){
+        //   if (this.getStatus == true){
+        //     this.$alert('确定提交订单？',{
+        //       callback:action=>{
+        //         let json = {
+        //
+        //         };
+        //         this.axios.post('/orders.json',this.json)
+        //         .then(res=>{
+        //           this.$message('购买成功');
+        //           // this.order='';
+        //           console.log(this.json)
+        //         })
+        //       }
+        //     });
+        //   } else {
+        //     this.$alert('您还未登陆，请先登录',{
+        //       type:'warning',
+        //       callback:action=>{
+        //         this.$router.push('/login')
+        //       }
+        //     });
+        //   }
+        // }
       },
       computed:{
         pizzaList(){
@@ -198,8 +208,8 @@
           /*计算购物车总价格*/
         total(){
           let totalCost = 0;
-          for (let index in this.cart){
-            totalCost += this.cart[index].price * this.cart[index].num;   //总价格等于每件商品单价*商品数量的累加
+          for (let index in this.order){
+            totalCost += this.order[index].price * this.order[index].num;   //总价格等于每件商品单价*商品数量的累加
           }
           return totalCost;
         }
@@ -263,7 +273,7 @@
       font-size: 15px;
       color: #000;
     }
-    .shopping-cart{
+    .shopping-order{
       padding: 0 20px;
       min-height: 100px !important;
       border: 1px solid #eee;

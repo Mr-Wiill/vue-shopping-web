@@ -62,7 +62,7 @@
               <el-col :span="5">{{orderList.price}}</el-col>
               <el-col :span="7">{{orderList.number}}</el-col>
             </el-row>
-            <el-container direction="vertical" >
+            <el-container direction="vertical">
               <el-form>
                 <el-row class="menu-item" :key="Math.random()" v-for="option in order">
                   <el-col :span="12">{{option.goods}}<span>（{{option.size+'寸'}}）</span></el-col>
@@ -117,6 +117,8 @@
       },
       mounted(){
         // console.log(moment().format('YYYYMMDDHHmmss'))
+        // console.log(moment().format('YYYYMMDDHHmmss')+Math.round(Math.random()*10000));
+        // console.log(moment().format('YYYY-MM-DD HH:mm:ss'))
       },
       methods:{
         /*获取披萨列表*/
@@ -146,11 +148,11 @@
               return (pizza.goods === name && pizza.size === size)   //通过商品的名字和尺寸来判断
             });
             if (result!=null && result.length >0){
-              result.forEach((value)=>{     //购物车有的商品就数量加1
+              result.forEach((value)=>{     //购物车存在该商品就数量加1
                 value.num++
               })
             } else {
-              this.order.push((orderGoods))    //result为空，说明购物车没有这商品，直接加入购物车
+              this.order.push((orderGoods))    //result为空，说明购物车没有该商品，直接加入购物车
             }
           } else {      //购物车为空，直接添加商品
             this.order.push(orderGoods);
@@ -172,30 +174,29 @@
           this.order = [];
         },
         /*提交订单*/
-        // submitOrder(){
-        //   if (this.getStatus == true){
-        //     this.$alert('确定提交订单？',{
-        //       callback:action=>{
-        //         let json = {
-        //
-        //         };
-        //         this.axios.post('/orders.json',this.json)
-        //         .then(res=>{
-        //           this.$message('购买成功');
-        //           // this.order='';
-        //           console.log(this.json)
-        //         })
-        //       }
-        //     });
-        //   } else {
-        //     this.$alert('您还未登陆，请先登录',{
-        //       type:'warning',
-        //       callback:action=>{
-        //         this.$router.push('/login')
-        //       }
-        //     });
-        //   }
-        // }
+        submitOrder(){
+          if (this.getStatus == true){
+            let orderN = moment().format('YYYYMMDDHHmmss')+Math.round(Math.random()*10000);   //十八位数订单号
+            let orderT = moment().format('YYYY-MM-DD HH:mm');  //提交订单的时间
+            this.axios.post('/orders.json',{
+              orderNum:orderN,
+              goods:this.order,
+              orderTime:orderT,
+              totalPrice:this.total+'元'
+            })
+              .then(res=>{
+                this.$message('购买成功');
+                this.order='';
+              });
+          } else {
+            this.$alert('您还未登陆，请先登录',{
+              type:'warning',
+              callback:action=>{
+                this.$router.push('/login')
+              }
+            });
+          }
+        }
       },
       computed:{
         pizzaList(){

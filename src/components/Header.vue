@@ -19,9 +19,9 @@
             <router-link :to="{name:item.link}">{{item.name}}</router-link>
           </li>
         </ul>
-        <el-row v-show="isLogin">
-          <el-col :span="12">{{currentUser}}</el-col>
-          <el-col :span="12"><router-link to="/login">[退出]</router-link></el-col>
+        <el-row class="logout" v-show="isLogin">
+          <el-col :span="12">{{getUserName}}</el-col>
+          <el-col :span="12"><a @click="logout">[退出]</a></el-col>
         </el-row>
       </el-col>
     </el-row>
@@ -75,7 +75,7 @@
               }
             ],
             checkId:null,
-            checkEntry:null
+            checkEntry:null,
           }
       },
       methods:{
@@ -87,6 +87,11 @@
         clicked(val){
           this.checkId = null;
           this.checkEntry = val;
+        },
+        logout(){
+          this.$message('您已退出');
+          this.$store.dispatch('logout',false);
+          this.$router.push('/login')
         },
         /*路由跳转的方法：*/
         goToRouter(){
@@ -128,18 +133,13 @@
         }
       },
       computed:{
-        currentUser(){
-          return this.$store.getters.getCurrentUser;
-        },
         isLogin(){
           return this.$store.getters.isLogin;
+        },
+        getUserName(){
+          return this.$store.getters.getUserName;
         }
       },
-      /*mounted(){
-          bus.$on('changeMenu',(value)=>{
-            this.checkId = value;
-          })
-      }*/
     }
 </script>
 
@@ -147,9 +147,6 @@
   .header{
     width: 100%;
     background: #62D2CE;
-   /* -webkit-box-shadow: 0px 2px 2px #ccc;
-    -moz-box-shadow:0px 2px 2px #ccc;
-    box-shadow: 0px 2px 2px #ccc;*/
     color: #696969;
     .header-content{
       max-width: 1200px;
@@ -190,6 +187,9 @@
       }
       .entry{
         text-align: center;
+      }
+      .logout a{
+        cursor: pointer;
       }
     }
   }

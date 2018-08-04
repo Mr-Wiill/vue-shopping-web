@@ -6,25 +6,16 @@ import * as actions from './actions'*/
 
 /*module模块化*/
 import menu from './module/menu'
-import user from './module/user'
-import status from './module/status'
 import order from './module/order'
+import login from './module/login'
+// import user from './module/user'
+// import status from './module/status'
 
 Vue.use(Vuex);
 export const store = new Vuex.Store({
-  /*state:{
-    /!*设置属性*!/
-    menuPizza:[],
-    currentUser:'',
-    isLogin:false
-  },
-  getters,
-  mutations,
-  actions*/
   modules:{
+    login,
     menu,
-    user,
-    status,
     order
   }
 });

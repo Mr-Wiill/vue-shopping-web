@@ -42,10 +42,9 @@
               });
               if (result !=null && result.length >0){     //返回数组不为空且长度大于0，说明账号密码正确
                 this.$message({type:'info',message:'登录成功'});
-                this.$store.dispatch('setUser',result[0].account);    //向vuex传递用户名
+                this.$store.dispatch('login',result[0].account);    //向vuex传递用户名
                 this.$router.push('/')      //登录成功后跳转首页
               } else {    //否则提示错误
-                this.$store.dispatch('setUser',null);   //登录失败，向vuex传递null
                 this.$alert('账号或密码错误',{
                   type:'error',
                   callback:action=>{}
@@ -57,7 +56,7 @@
       /*导航守卫，只要跳转至本页面 用户登录信息就会被清空*/
       beforeRouteEnter:(to,from,next)=>{
           next(vm=>{
-            vm.$store.dispatch('setUser',null);
+            vm.$store.dispatch('logout',false);
           })
       }
     }

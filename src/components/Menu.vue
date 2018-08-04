@@ -175,7 +175,7 @@
         },
         /*提交订单*/
         submitOrder(){
-          if (this.getStatus == true){
+          if (!this.isLogin){
             let orderN = moment().format('YYYYMMDDHHmmss')+Math.round(Math.random()*10000);   //十八位数订单号
             let orderT = moment().format('YYYY-MM-DD HH:mm');  //提交订单的时间
             this.axios.post('/orders.json',{
@@ -203,7 +203,7 @@
           /*从vuex中获取pizza数据*/
           return this.$store.getters.getMenuPizza;
         },
-        getStatus(){
+        isLogin(){
           return this.$store.getters.isLogin;
         },
           /*计算购物车总价格*/

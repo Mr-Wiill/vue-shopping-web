@@ -25,7 +25,7 @@
       <el-col :span="13" :offset="1" class="about-content">
         <el-container direction="vertical">
           <el-row class="about-content-head">
-            <h4>菜单列表</h4>
+            <h4>商品列表</h4>
           </el-row>
           <el-container direction="vertical">
             <el-row class="menu-item menu-item-head">
@@ -38,10 +38,12 @@
                 <el-row class="item-pizza-info">
                   <el-col :span="8">{{pizza.size+' 寸'}}</el-col>
                   <el-col :span="8">{{pizza.price+' RMB'}}</el-col>
-                  <el-col :span="8"><button @click="deletePizza(pizza.id)"><i class="el-icon-delete"></i></button></el-col>
+                  <el-col :span="8">
+                    <el-button class="edit" @click="editPizza(pizza)"><i class="el-icon-edit"></i></el-button>
+                    <el-button @click="deletePizza(pizza.id)"><i class="el-icon-delete"></i></el-button>
+                  </el-col>
                 </el-row>
               </el-col>
-              .
             </el-row>
             <el-row v-if="pizzaList.length==0" class="none-pizza">
               <el-col :span="24">商品为空</el-col>
@@ -50,26 +52,32 @@
         </el-container>
       </el-col>
     </el-row>
+    <Dialog v-show="dialogVisible" :pizza="updatePizza" @closed="closeDialog($event)"></Dialog>
   </el-container>
 </template>
 
 <script>
+  import Dialog from '../dialog/Dialog'
     export default {
         name: "Admin",
+      components:{
+          Dialog
+      },
       data(){
           return {
             navList:{
               category:'商品',
               size:'尺寸',
               price:'价格',
-              order:'删除'
+              order:'编辑'
             },
             goods:{
               name:'',
               size:'',
               price:''
             },
-            // pizzaList:[]
+            dialogVisible:false,
+            updatePizza:{}
           }
       },
       methods:{
@@ -105,13 +113,24 @@
             }
           }
           },
+        editPizza(pizza){
+          this.dialogVisible = true;
+          this.updatePizza = pizza;
+          /*this.axios.get('/pizza/'+id+'/.json')
+            .then(res=>{
+              this.updatePizza = res.data;
+            })*/
+        },
         deletePizza(id){
           this.axios.delete('/pizza/'+id+'/.json')
             .then(res=>{
               this.$store.commit('deleteMenuPizza',id);
               this.$message('删除成功！');
             })
-        }
+        },
+        closeDialog(val){
+          this.dialogVisible = val;
+        },
       },
       created(){
         this.getPizza();
@@ -195,6 +214,12 @@
         padding: 5px 10px;
         font-size: 14px;
         border-radius: 4px;
+      }
+      .edit i{
+        color: darkblue;
+      }
+      .edit:hover{
+        border: 1px solid darkblue;
       }
       button:hover{
         border: 1px solid red;

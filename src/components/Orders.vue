@@ -22,7 +22,7 @@
           <el-row class="goods-list" v-for="pizza in order.goods" :key="pizza.size+Math.random()">
             <el-row>
               <el-col :span="12">{{pizza.goods}}{{'（'+pizza.size+'寸）'}}</el-col>
-              <el-col :span="6">{{pizza.price}}</el-col>
+              <el-col :span="6">{{pizza.price+'元'}}</el-col>
               <el-col :span="6">{{pizza.num}}</el-col>
             </el-row>
           </el-row>
@@ -55,15 +55,19 @@
     },
     methods:{
       getData(){
-        this.axios.get('/orders.json')
-        .then((res)=>{
-          let data = res.data;
-          let orders = [];
-          for (let key in data){
-            orders.push(data[key])
-          }
-          this.$store.commit('getOrder',orders)
-        })
+        if (this.isLogin){
+          this.axios.get('/orders.json')
+            .then((res)=>{
+              let data = res.data;
+              let orders = [];
+              for (let key in data){
+                orders.push(data[key])
+              }
+              this.$store.commit('getOrder',orders)
+            })
+        } else{
+          this.$store.commit('getOrder',[])
+        }
       }
     },
     created(){
@@ -72,7 +76,22 @@
     computed:{
       orderList(){
         return this.$store.getters.getOrders;
+      },
+      isLogin(){
+        return this.$store.getters.isLogin
       }
+    },
+    beforeRouteEnter(to,from,next){
+      next(vm=>{
+        if (!vm.isLogin){
+          vm.$alert('您还未登录，请先登录！',{
+            type:'warning',
+            callback:action=>{
+              vm.$router.push('/login')
+            }
+          })
+        }
+      })
     }
   }
 </script>
@@ -102,7 +121,7 @@
       .menu-item{
         text-align: center;
         border-bottom: 1px solid #eee;
-        padding: 10px 0;
+        padding: 20px 0;
         font-size: 14px;
         color: #696969;
         /*margin-bottom: 20px;*/
@@ -112,6 +131,9 @@
         .goods-list{
           line-height: 40px;
         }
+      }
+      .menu-item:hover{
+        background: #F5F5F5;
       }
       .none-pizza{
         text-align: center;

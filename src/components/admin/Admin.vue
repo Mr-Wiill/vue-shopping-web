@@ -52,12 +52,12 @@
         </el-container>
       </el-col>
     </el-row>
-    <Dialog v-show="dialogVisible" :pizza="updatePizza" @closed="closeDialog($event)"></Dialog>
+    <Dialog v-show="dialogVisible" :updatePizza="updatePizza" @closed="closeDialog($event)"></Dialog>
   </el-container>
 </template>
 
 <script>
-  import Dialog from '../dialog/Dialog'
+  import Dialog from '../dialog/editDialog'
     export default {
         name: "Admin",
       components:{

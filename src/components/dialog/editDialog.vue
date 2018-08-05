@@ -6,13 +6,13 @@
       </el-row>
       <el-form label-width="70px" class="add-goods-list" @submit.native.prevent>
         <el-form-item label="商品名称">
-          <el-input v-model="pizza.name" placeholder="请输入商品名称" required="required"></el-input>
+          <el-input v-model="updatePizza.name" placeholder="请输入商品名称" required="required"></el-input>
         </el-form-item>
         <el-form-item label="商品尺寸">
-          <el-input v-model="pizza.size" placeholder="请输入商品尺寸" required="required"></el-input>
+          <el-input v-model="updatePizza.size" placeholder="请输入商品尺寸" required="required"></el-input>
         </el-form-item>
         <el-form-item label="商品价格">
-          <el-input v-model="pizza.price" placeholder="请输入商品价格" required="required"></el-input>
+          <el-input v-model="updatePizza.price" placeholder="请输入商品价格" required="required"></el-input>
         </el-form-item>
       </el-form>
       <el-row class="dialog-main-btn" type="flex" justify="end">
@@ -27,26 +27,41 @@
 <script>
   export default {
     name: "Dialog",
-    props:['pizza'],
+    props:['updatePizza'],
     data(){
       return {
       }
     },
     methods:{
       confirmed(){
-        this.axios.put('/pizza/'+this.pizza.id+'/.json',{
-          name:this.pizza.name,
-          size:this.pizza.size,
-          price:this.pizza.price
-        })
+        let result = this.pizzaList.filter((pizza)=>{
+          return pizza.id !== this.updatePizza.id && pizza.name == this.updatePizza.name && pizza.size == this.updatePizza.size
+        });
+        if (result !=null && result.length > 0){
+          this.$alert('商品已经存在',{
+            type:'waring',
+            callback:action=>{}
+          })
+        } else{
+          this.axios.put('/pizza/'+this.updatePizza.id+'/.json',{
+            name:this.updatePizza.name,
+            size:this.updatePizza.size,
+            price:this.updatePizza.price
+          })
           .then(res=>{
             this.$message('修改成功');
             this.cancelled()
           })
+        }
       },
       /*关闭窗口*/
       cancelled(){
         this.$emit('closed');
+      }
+    },
+    computed:{
+      pizzaList(){
+        return this.$store.getters.getMenuPizza;
       }
     },
     created(){

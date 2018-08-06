@@ -91,7 +91,8 @@
         logout(){
           this.$message('您已退出');
           this.$store.dispatch('logout',false);
-          this.$router.push('/login')
+          this.$router.push('/login');
+          // location.reload();
         },
         /*路由跳转的方法：*/
         goToRouter(){

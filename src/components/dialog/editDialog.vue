@@ -4,7 +4,7 @@
       <el-row class="dialog-main-title">
         <el-col :span="24">修改商品</el-col>
       </el-row>
-      <el-form label-width="70px" class="add-goods-list" @submit.native.prevent>
+      <el-form label-width="70px" class="add-goods-list" >
         <el-form-item label="商品名称">
           <el-input v-model="updatePizza.name" placeholder="请输入商品名称" required="required"></el-input>
         </el-form-item>
@@ -14,11 +14,11 @@
         <el-form-item label="商品价格">
           <el-input v-model="updatePizza.price" placeholder="请输入商品价格" required="required"></el-input>
         </el-form-item>
+        <el-row class="dialog-main-btn" type="flex" justify="end">
+          <el-col :span="12"><el-button @click="cancelled">取消</el-button></el-col>
+          <el-col :span="12"><el-button @click="confirmed">确定</el-button></el-col>
+        </el-row>
       </el-form>
-      <el-row class="dialog-main-btn" type="flex" justify="end">
-        <el-col :span="12"><el-button @click="cancelled">取消</el-button></el-col>
-        <el-col :span="12"><el-button @click="confirmed">确定</el-button></el-col>
-      </el-row>
     </el-container>
     <div class="bg-fade" @click="cancelled"></div>
   </div>

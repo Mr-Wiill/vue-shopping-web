@@ -2,8 +2,9 @@
   <el-container class="app-main" direction="vertical">
     <el-row class="history-order-head" type="flex" align="middle">
       <el-col :span="15" ><h4>已购买的商品：</h4></el-col>
-      <el-col :span="7">
-        <el-input placeholder="查询订单"></el-input>
+      <el-col class="order-search-btn" :span="6">
+        <el-input v-model="inputData" placeholder="查询订单"></el-input>
+        <a><i class="el-icon-search"></i></a>
       </el-col>
     </el-row>
     <el-container direction="vertical" class="order-main">
@@ -48,9 +49,9 @@
           goodsPrice:'商品价格',
           number:'数量',
           orderTime:'下单时间',
-          total:'总价格'
+          total:'总价格',
         },
-        // orderList:[]
+        inputData:'',
       }
     },
     methods:{
@@ -63,19 +64,26 @@
               for (let key in data){
                 orders.push(data[key])
               }
-              this.$store.commit('getOrder',orders)
+              this.$store.commit('getOrder',orders);
             })
         } else{
           this.$store.commit('getOrder',[])
         }
-      }
+      },
     },
     created(){
       this.getData()
     },
     computed:{
       orderList(){
-        return this.$store.getters.getOrders;
+        let orders =  this.$store.getters.getOrders;
+        if (this.inputData!==''){
+          return orders.filter((order)=>{
+            return order.orderNum.match(this.inputData);
+          })
+        } else {
+          return orders
+        }
       },
       isLogin(){
         return this.$store.getters.isLogin
@@ -101,6 +109,19 @@
     .history-order-head{
       width: 100%;
       height: auto;
+      .order-search-btn{
+        position: relative;
+        a{
+          width: 40px;
+          height: 40px;
+          position: absolute;
+          right: 0px;
+          top: 0px;
+          text-align: center;
+          line-height: 40px;
+          cursor: pointer;
+        }
+      }
     }
     .menu-item-head{
       background: #909399;
@@ -114,7 +135,7 @@
       margin: 20px 0;
       border: 1px solid #eee;
       box-shadow: 0 0 5px #eee;
-      padding-bottom: 20px;
+      padding-bottom: 40px;
       .menu-item-head .el-col{
         font-size: 15px;
       }

@@ -93,40 +93,63 @@
             });
         },
         addGoodsFn(){
-          if (this.goods.name == '' || this.goods.size == '' || this.goods.price == ''){
-            this.$message('商品信息不能为空');
-          } else {
-            let result = this.pizzaList.filter((pizza)=>{
-              return (pizza.name === this.goods.name && pizza.size === this.goods.size)
-            });
-            if (result.length > 0 && result!=null){
-              this.$alert('商品已存在，无需再添加',{callback:action=>{}})
+          if (this.$store.getters.isLogin){
+            if (this.goods.name == '' || this.goods.size == '' || this.goods.price == ''){
+              this.$message('商品信息不能为空');
             } else {
-              this.axios.post('/pizza.json',this.goods)
-                .then(res=>{
-                  this.$store.commit('addMenuPizza',this.goods);
-                  this.$message('添加成功');
-                  this.goods.name='';
-                  this.goods.size='';
-                  this.goods.price='';
-                })
+              let result = this.pizzaList.filter((pizza)=>{
+                return (pizza.name === this.goods.name && pizza.size === this.goods.size)
+              });
+              if (result.length > 0 && result!=null){
+                this.$alert('商品已存在，无需再添加',{callback:action=>{}})
+              } else {
+                this.axios.post('/pizza.json',this.goods)
+                  .then(res=>{
+                    this.$store.commit('addMenuPizza',this.goods);
+                    this.$message('添加成功');
+                    this.goods.name='';
+                    this.goods.size='';
+                    this.goods.price='';
+                  })
+              }
             }
+          } else{
+            this.$alert('您还未登陆，请先登录',{
+              type:'warning',
+              callback:action=>{
+                this.$router.push('/login')
+              }
+            });
           }
-          },
+        },
         editPizza(pizza){
-          this.dialogVisible = true;
-          this.updatePizza = pizza;
-          /*this.axios.get('/pizza/'+id+'/.json')
-            .then(res=>{
-              this.updatePizza = res.data;
-            })*/
+          if (this.$store.getters.isLogin){
+            this.dialogVisible = true;
+            this.updatePizza = pizza;
+          } else{
+            this.$alert('您还未登陆，请先登录',{
+              type:'warning',
+              callback:action=>{
+                this.$router.push('/login')
+              }
+            });
+          }
         },
         deletePizza(id){
-          this.axios.delete('/pizza/'+id+'/.json')
-            .then(res=>{
-              this.$store.commit('deleteMenuPizza',id);
-              this.$message('删除成功！');
-            })
+          if (this.$store.getters.isLogin){
+            this.axios.delete('/pizza/'+id+'/.json')
+              .then(res=>{
+                this.$store.commit('deleteMenuPizza',id);
+                this.$message('删除成功！');
+              })
+          } else{
+            this.$alert('您还未登陆，请先登录',{
+              type:'warning',
+              callback:action=>{
+                this.$router.push('/login')
+              }
+            });
+          }
         },
         closeDialog(val){
           this.dialogVisible = val;

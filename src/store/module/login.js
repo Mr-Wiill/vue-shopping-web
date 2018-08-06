@@ -1,39 +1,35 @@
 const state ={
   isLogin:false,
-  userName:null
+  userName:''
 };
 
 const getters = {
   getUserName(state){
-    return sessionStorage.getItem('userName');
-    /*if (state.isLogin){
-      return sessionStorage.getItem('userName');
-    } else{
-      return state.userName
-    }*/
+    if (!state.isLogin){
+      state.userName=sessionStorage.getItem('userName')
+    }
+    return sessionStorage.getItem('userName')
   },
   isLogin(state){
-    return sessionStorage.getItem('isLogin');
-    /*if (state.isLogin){
-      return sessionStorage.getItem('isLogin');
-    } else{
-      return state.isLogin
-    }*/
+    if (!state.isLogin){
+      state.isLogin=sessionStorage.getItem('isLogin')
+    }
+    return sessionStorage.getItem('isLogin')
   },
 };
 
 const mutations = {
-  userLogin (state,data){       /*设置user的状态*/
-    sessionStorage.setItem('userName',data);
+  userLogin (state,data){
+    sessionStorage.setItem('userName',data);    //把用户名和登录状态存储到sessionStorage
     sessionStorage.setItem('isLogin',true);
     state.isLogin = true;
     state.userName = data;
   },
   userLogout(state,status){
-    sessionStorage.removeItem('userName');
+    sessionStorage.removeItem('userName');    //移除sessionStorage
     sessionStorage.removeItem('isLogin');
     state.isLogin = status;
-    state.userName = ''
+    state.userName = '';
   }
 };
 

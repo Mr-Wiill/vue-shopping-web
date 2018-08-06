@@ -43,7 +43,8 @@
               if (result !=null && result.length >0){     //返回数组不为空且长度大于0，说明账号密码正确
                 this.$message({type:'info',message:'登录成功'});
                 this.$store.dispatch('login',result[0].account);    //向vuex传递用户名
-                this.$router.push('/')      //登录成功后跳转首页
+                this.$router.push('/');      //登录成功后跳转首页
+                // location.reload();
               } else {    //否则提示错误
                 this.$alert('账号或密码错误',{
                   type:'error',

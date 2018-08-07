@@ -3,7 +3,7 @@
     <el-row class="history-order-head" type="flex" align="middle">
       <el-col :span="15" ><h4>已购买的商品：</h4></el-col>
       <el-col class="order-search-btn" :span="6">
-        <el-input v-model="inputData" placeholder="查询订单"></el-input>
+        <el-input v-model="inputData" placeholder="请输入订单号"></el-input>
         <a><i class="el-icon-search"></i></a>
       </el-col>
     </el-row>

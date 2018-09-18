@@ -25,10 +25,10 @@ const mutations = {
     state.isLogin = true;
     state.userName = data;
   },
-  userLogout(state,status){
+  userLogout(state,data){
     sessionStorage.removeItem('userName');    //移除sessionStorage
     sessionStorage.removeItem('isLogin');
-    state.isLogin = status;
+    state.isLogin = data;
     state.userName = '';
   }
 };

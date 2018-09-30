@@ -24,26 +24,6 @@
                 </el-row>
               </el-col>
             </el-row>
-           <!-- <el-row v-show="sausagePizza.length>0" class="menu-item" type="flex" align="middle">
-              <el-col :span="6" class="item-pizza-name">香肠披萨</el-col>
-              <el-col :span="18">
-                <el-row class="item-pizza-info" v-for="pizza in sausagePizza"  :key="pizza.size">
-                  <el-col :span="8">{{pizza.size+' 寸'}}</el-col>
-                  <el-col :span="8">{{pizza.price+' RMB'}}</el-col>
-                  <el-col :span="8"><button @click="addToOrder(pizza.name,pizza.size,pizza.price)"><i class="el-icon-plus"></i></button></el-col>
-                </el-row>
-              </el-col>
-            </el-row>
-            <el-row v-show="haweiiPizza.length>0" class="menu-item" type="flex" align="middle">
-              <el-col :span="6" class="item-pizza-name">夏威夷披萨</el-col>
-              <el-col :span="18">
-                <el-row class="item-pizza-info" v-for="pizza in haweiiPizza"  :key="pizza.size">
-                  <el-col :span="8">{{pizza.size+' 寸'}}</el-col>
-                  <el-col :span="8">{{pizza.price+' RMB'}}</el-col>
-                  <el-col :span="8"><button @click="addToOrder(pizza.name,pizza.size,pizza.price)"><i class="el-icon-plus"></i></button></el-col>
-                </el-row>
-              </el-col>
-            </el-row>-->
             <el-row v-if="pizzaList.length==0" class="none-pizza">
               <el-col :span="24">商品为空</el-col>
             </el-row>
@@ -160,13 +140,14 @@
         },
         /*增加购物车商品数量*/
         addNum(option){
-          option.num ++;
+          // option.num ++;
+          console.log(option)
         },
         /*减少购物车商品数量*/
         minusNum(option){
           option.num --;
-          if (option.num<=0){
-            this.order.splice(this.order.indexOf(option),1) //当购物车里的商品数量小于0时，商品出购物车中移除
+          if (option.num<=0){   //当购物车里的商品数量小于0时，商品从购物车中移除
+            this.order.splice(this.order.indexOf(option),1)
           }
         },
         /*清空购物车*/

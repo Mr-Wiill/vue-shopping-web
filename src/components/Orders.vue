@@ -135,7 +135,7 @@
       margin: 20px 0;
       border: 1px solid #eee;
       box-shadow: 0 0 5px #eee;
-      padding-bottom: 40px;
+      /*padding-bottom: 40px;*/
       .menu-item-head .el-col{
         font-size: 15px;
       }

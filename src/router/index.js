@@ -51,49 +51,43 @@ const router =  [
       component:Order
     },
     {
-      path:'/about',      //一级路由
-      // name:'aboutLink',
-      component:About,
-      children:[          //二级路由
-        {
-          path:'/',
-          name:'expressLink',
-          component:Express
-        },
-        /*{
-          path:'/about/express',
-          name:'expressLink',
-          component:Express
-        },*/
-        {
-          path:'/about/guide',
-          name:'guideLink',
-          component:Guide
-        },
-        {
-          path:'/about/contact',
-          name:'contactLink',
-          component:Contact,
-          children:[            //三级路由
-            {
-              path:'/about/contact/personName',
-              name:'personNameLink',
-              component:PersonName,
-              beforeEnter:(to,from,next)=>{       //路由独享守卫
-                alert('触发守卫！');
-                next();
-              }
-            },
-            {
-              path:'/about/contact/phone',
-              name:'phoneLink',
-              component:Phone
-            },
+    path:'/about',      //一级路由
+    component:About,
+    children:[          //二级路由
+      {
+        path:'/',
+        name:'expressLink',
+        component:Express
+      },
+      {
+        path:'/about/guide',
+        name:'guideLink',
+        component:Guide
+      },
+      {
+        path:'/about/contact',
+        name:'contactLink',
+        component:Contact,
+        children:[            //三级路由
+          {
+            path:'/about/contact/personName',
+            name:'personNameLink',
+            component:PersonName,
+            beforeEnter:(to,from,next)=>{       //路由独享守卫
+              alert('触发守卫！');
+              next();
+            }
+          },
+          {
+            path:'/about/contact/phone',
+            name:'phoneLink',
+            component:Phone
+          },
 
-          ]
-        }
-      ]
-    },
+        ]
+      }
+    ]
+  },
     {
       path:'/login',
       name:'loginLink',
@@ -113,7 +107,7 @@ export default new Router({
     if (savedPosition){
       return savedPosition;       //按后退键，滚动条停留在上一次浏览的位置
     } else {
-      return{x:0, y:60}       //路由跳转时，滚动条的默认位置
+      return{x:0, y:60}       //路由跳转时，滚动条的坐标位置
     }
     // return {selector:'.btn'}     //滚动条浏览在指定目标位置
   }

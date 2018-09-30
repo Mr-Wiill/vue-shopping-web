@@ -51,7 +51,7 @@ export default {
         -webkit-border-radius: 5px;
         -moz-border-radius: 5px;
         border-radius: 5px;
-
+        padding-bottom: 40px;
       }
       .about-content{
         min-height: 240px;

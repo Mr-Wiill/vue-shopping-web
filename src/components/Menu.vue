@@ -48,9 +48,9 @@
                   <el-col :span="12">{{option.goods}}<span>（{{option.size+'寸'}}）</span></el-col>
                   <el-col :span="5">{{option.price*option.num+' RMB'}}</el-col>
                   <el-col :span="7" class="goods-number">
-                    <button @click="minusNum(option)"><i class="el-icon-minus"></i></button>
+                    <button type="button" @click="minusNum(option)"><i class="el-icon-minus"></i></button>
                     <span>{{option.num}}</span>
-                    <button @click="addNum(option)"><i class="el-icon-plus"></i></button>
+                    <button type="button" @click="addNum(option)"><i class="el-icon-plus"></i></button>
                   </el-col>
                 </el-row>
                 <el-row class="goods-price-total" type="flex" align="middle">
@@ -140,8 +140,8 @@
         },
         /*增加购物车商品数量*/
         addNum(option){
-          // option.num ++;
-          console.log(option)
+          option.num ++;
+          // console.log(option)
         },
         /*减少购物车商品数量*/
         minusNum(option){
@@ -149,6 +149,7 @@
           if (option.num<=0){   //当购物车里的商品数量小于0时，商品从购物车中移除
             this.order.splice(this.order.indexOf(option),1)
           }
+          // console.log(option)
         },
         /*清空购物车*/
         emptyorder(){
